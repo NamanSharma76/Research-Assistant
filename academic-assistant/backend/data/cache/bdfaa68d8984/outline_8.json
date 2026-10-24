@@ -1,0 +1,90 @@
+{
+  "_cache_version": 1,
+  "data": {
+    "title": "The Transformer: Attention‑Only Neural Sequence Transduction",
+    "slides": [
+      {
+        "slide_number": 1,
+        "title": "Overview & Contributions",
+        "bullets": [
+          "Introduces the Transformer, an encoder‑decoder built solely from multi‑head self‑attention and feed‑forward layers.",
+          "Eliminates recurrence and convolution, enabling full parallelism across sequence positions.",
+          "Achieves state‑of‑the‑art BLEU scores on WMT 2014 EN‑DE and EN‑FR with dramatically reduced training time."
+        ],
+        "source": "Executive Summary"
+      },
+      {
+        "slide_number": 2,
+        "title": "Motivation: Limits of RNN/CNN Transducers",
+        "bullets": [
+          "RNNs process tokens sequentially → O(n) sequential steps per layer, slowing training on long sentences.",
+          "CNNs need many stacked layers to propagate information across distant positions, hindering long‑range dependency learning.",
+          "Existing attention mechanisms are still coupled to RNN/CNN backbones, so the core bottlenecks remain."
+        ],
+        "source": "Problem (sources: [1 Introduction, p. 2]; [4 Why Self-Attention, pp. 6-7]; [2 Background, p. 2])"
+      },
+      {
+        "slide_number": 3,
+        "title": "Key Idea: Self‑Attention as the Sole Primitive",
+        "bullets": [
+          "Scaled‑dot‑product attention connects every token to every other token in a single layer (constant path length).",
+          "Multi‑head attention projects queries/keys/values into several sub‑spaces, allowing the model to capture diverse linguistic relations.",
+          "Positional information is injected via sinusoidal encodings, preserving order without recurrence."
+        ],
+        "source": "Method (sources: [3 Model Architecture, pp. 2-4]; [3 Model Architecture, pp. 5-6])"
+      },
+      {
+        "slide_number": 4,
+        "title": "Encoder Architecture",
+        "bullets": [
+          "Six identical layers; each layer = multi‑head self‑attention → position‑wise feed‑forward network.",
+          "Residual connection + layer‑normalization surrounds every sub‑layer (LayerNorm(x + Sublayer(x))).",
+          "Model dimension d_model = 512; inner feed‑forward dimension d_ff = 2048; 8 attention heads (d_k = d_v = 64)."
+        ],
+        "source": "Method (sources: [3 Model Architecture, pp. 2-4]; [3 Model Architecture, pp. 4-5])"
+      },
+      {
+        "slide_number": 5,
+        "title": "Decoder Architecture & Attention Types",
+        "bullets": [
+          "Six identical layers; three sub‑layers: masked self‑attention, encoder‑decoder attention, feed‑forward network.",
+          "Masking prevents attending to future positions, enabling autoregressive generation.",
+          "Encoder‑decoder attention lets each target token attend to the full source representation."
+        ],
+        "source": "Method (sources: [3 Model Architecture, pp. 2-4]; [3 Model Architecture, pp. 5-6])"
+      },
+      {
+        "slide_number": 6,
+        "title": "Positional Encoding & Multi‑Head Mechanics",
+        "bullets": [
+          "Sinusoidal positional encodings: PE(pos,2i)=sin(pos/10000^{2i/d_model}), PE(pos,2i+1)=cos(...).",
+          "Encoding can be extrapolated to longer sequences because each dimension is a linear function of position.",
+          "Multi‑head attention: for each head i, Q,K,V → W_Q^i,W_K^i,W_V^i (64‑dim), attention computed in parallel, heads concatenated and projected back."
+        ],
+        "source": "Method (sources: [3 Model Architecture, pp. 5-6]; [4 Why Self-Attention, pp. 6-7])"
+      },
+      {
+        "slide_number": 7,
+        "title": "Experiments, Results & Efficiency",
+        "bullets": [
+          "Datasets: WMT 2014 EN‑DE (≈4.5 M pairs) and EN‑FR (≈36 M pairs) with BPE/WordPiece vocabularies.",
+          "Big Transformer (300 k steps, 1 s/step on 8 × P100) reaches 28.4 BLEU (EN‑DE) and 41.8 BLEU (EN‑FR).",
+          "Training cost: ~2.3 × 10^{19} FLOPs (big) vs. several‑fold higher for prior ConvS2S/GNMT ensembles; training completed in 3.5 days.",
+          "Ablation studies confirm importance of multiple heads, dropout schedule, and key dimension size."
+        ],
+        "source": "Dataset & Setup (sources: [5 Training, pp. 7-8]; [6 Results, pp. 8-9]); Key Results (sources: [6 Results, pp. 8-9]; [Abstract, p. 1])"
+      },
+      {
+        "slide_number": 8,
+        "title": "Conclusions, Limitations & Future Directions",
+        "bullets": [
+          "Self‑attention alone suffices for high‑quality sequence transduction, overturning the recurrence‑centric paradigm.",
+          "Quadratic O(n²) cost limits scalability to very long sequences; authors propose local/restricted attention as a remedy.",
+          "Decoding remains sequential; making generation parallel is an open research problem.",
+          "Future work: apply to other modalities (image, audio, video), explore efficient long‑range attention, and reduce generation latency."
+        ],
+        "source": "Limitations (sources: [7 Conclusion, p. 10]; [2 Background, p. 2]; [1 Introduction, p. 2]; [4 Why Self-Attention, pp. 6-7])"
+      }
+    ]
+  }
+}

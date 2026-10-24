@@ -1,0 +1,263 @@
+[
+  {
+    "id": 1,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "What BLEU score did the Transformer achieve on English-to-German?",
+    "expected_intent": "paper_question",
+    "description": "Direct factual question about machine translation benchmark"
+  },
+  {
+    "id": 2,
+    "history": [
+      {"role": "user", "content": "What BLEU score did the Transformer achieve on English-to-German?"},
+      {"role": "assistant", "content": "The Transformer (big) achieved 28.4 BLEU on WMT 2014 English-to-German [6 Results, p. 8]."}
+    ],
+    "last_output_kind": "answer",
+    "message": "explain that more simply",
+    "expected_intent": "rephrase_previous",
+    "description": "Follow-up requesting simplification of previous answer"
+  },
+  {
+    "id": 3,
+    "history": [
+      {"role": "user", "content": "What is self-attention?"},
+      {"role": "assistant", "content": "Self-attention relates different positions of a single sequence to compute a representation [3 Model Architecture, p. 3]."}
+    ],
+    "last_output_kind": "answer",
+    "message": "shorter",
+    "expected_intent": "rephrase_previous",
+    "description": "Short style directive on existing output"
+  },
+  {
+    "id": 4,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "shorter",
+    "expected_intent": "paper_question",
+    "description": "Tricky: 'shorter' with no previous output must route to paper_question via guard"
+  },
+  {
+    "id": 5,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "summarize section 6",
+    "expected_intent": "summarize",
+    "description": "Summarize a specific numbered section"
+  },
+  {
+    "id": 6,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "give me a summary of the whole paper",
+    "expected_intent": "summarize",
+    "description": "Overall document summary request"
+  },
+  {
+    "id": 7,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "summarize the Introduction",
+    "expected_intent": "summarize",
+    "description": "Summarize section by name without number"
+  },
+  {
+    "id": 8,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "summarize section 99 Quantum Physics",
+    "expected_intent": "needs_clarification",
+    "description": "Tricky: Non-existent section name routes to needs_clarification"
+  },
+  {
+    "id": 9,
+    "history": [
+      {"role": "user", "content": "What is the Transformer architecture?"},
+      {"role": "assistant", "content": "It is an encoder-decoder architecture based on attention mechanisms [3 Model Architecture, p. 2]."}
+    ],
+    "last_output_kind": "answer",
+    "message": "what about the limitations?",
+    "expected_intent": "paper_question",
+    "description": "Tricky: Follow-up phrased question asking for new information from the paper"
+  },
+  {
+    "id": 10,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "make study notes",
+    "expected_intent": "notes",
+    "description": "Study notes generation request"
+  },
+  {
+    "id": 11,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "generate structured revision notes for this paper",
+    "expected_intent": "notes",
+    "description": "Revision notes request"
+  },
+  {
+    "id": 12,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "make a 6 slide presentation",
+    "expected_intent": "outline",
+    "description": "Presentation outline with slide count specified"
+  },
+  {
+    "id": 13,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "create a presentation outline",
+    "expected_intent": "outline",
+    "description": "Presentation outline default slides"
+  },
+  {
+    "id": 14,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "what is the capital of France?",
+    "expected_intent": "off_topic",
+    "description": "Unrelated general geography question"
+  },
+  {
+    "id": 15,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "What accuracy does BERT get on GLUE?",
+    "expected_intent": "off_topic",
+    "description": "Tricky: ML topic but unrelated to this specific paper (Transformer introduces attention, BERT was 2018)"
+  },
+  {
+    "id": 16,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "tell me about the other one",
+    "expected_intent": "needs_clarification",
+    "description": "Tricky: Ambiguous reference with no context in history"
+  },
+  {
+    "id": 17,
+    "history": [
+      {"role": "user", "content": "They trained on WMT English-to-German and English-to-French."},
+      {"role": "assistant", "content": "Yes, English-to-German had 4.5M sentence pairs while English-to-French had 36M [5 Training, p. 7]."}
+    ],
+    "last_output_kind": "answer",
+    "message": "tell me about the other one",
+    "expected_intent": "paper_question",
+    "description": "Tricky: Context resolves 'the other one' to the second dataset, asking for details from paper"
+  },
+  {
+    "id": 18,
+    "history": [
+      {"role": "user", "content": "How many heads did they use?"},
+      {"role": "assistant", "content": "They used 8 attention heads in the base model [3 Model Architecture, p. 5]."}
+    ],
+    "last_output_kind": "answer",
+    "message": "why not 16 heads?",
+    "expected_intent": "paper_question",
+    "description": "Follow-up question seeking ablation details from paper"
+  },
+  {
+    "id": 19,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "write a python script to download cat pictures",
+    "expected_intent": "off_topic",
+    "description": "General programming request unrelated to the paper"
+  },
+  {
+    "id": 20,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "how does multi-head attention work?",
+    "expected_intent": "paper_question",
+    "description": "Conceptual paper architecture question"
+  },
+  {
+    "id": 21,
+    "history": [
+      {"role": "user", "content": "How are positional encodings computed?"},
+      {"role": "assistant", "content": "They use sine and cosine functions of different frequencies [3 Model Architecture, p. 6]."}
+    ],
+    "last_output_kind": "answer",
+    "message": "can you give an everyday analogy for that?",
+    "expected_intent": "rephrase_previous",
+    "description": "Requesting analogy for previous explanation"
+  },
+  {
+    "id": 22,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "summarize section 3 Model Architecture",
+    "expected_intent": "summarize",
+    "description": "Section summary with full title"
+  },
+  {
+    "id": 23,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "summarize the conclusion",
+    "expected_intent": "summarize",
+    "description": "Conclusion section summary"
+  },
+  {
+    "id": 24,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "give me 12 slides for a tech talk",
+    "expected_intent": "outline",
+    "description": "Outline request with explicit slide count 12"
+  },
+  {
+    "id": 25,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "who is the prime minister of Canada?",
+    "expected_intent": "off_topic",
+    "description": "Unrelated political question"
+  },
+  {
+    "id": 26,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "what hardware did they use for training?",
+    "expected_intent": "paper_question",
+    "description": "Factual training setup question"
+  },
+  {
+    "id": 27,
+    "history": [
+      {"role": "user", "content": "Explain scaled dot-product attention."},
+      {"role": "assistant", "content": "Attention(Q,K,V) = softmax(QK^T / sqrt(d_k))V [3 Model Architecture, p. 4]."}
+    ],
+    "last_output_kind": "answer",
+    "message": "translate your answer to Spanish",
+    "expected_intent": "rephrase_previous",
+    "description": "Translating previous output without adding new facts"
+  },
+  {
+    "id": 28,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "what is this paper about?",
+    "expected_intent": "summarize",
+    "description": "High-level paper summary query"
+  },
+  {
+    "id": 29,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "how does beam search work in machine translation generally?",
+    "expected_intent": "paper_question",
+    "description": "Inference and decoding question relevant to the paper"
+  },
+  {
+    "id": 30,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "can you elaborate on that?",
+    "expected_intent": "needs_clarification",
+    "description": "Tricky: Vague elaboration request with empty history"
+  }
+]

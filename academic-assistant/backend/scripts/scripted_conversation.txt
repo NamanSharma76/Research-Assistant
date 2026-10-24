@@ -1,0 +1,10 @@
+What dataset did they use for translation?
+explain that more simply
+summarize section 6
+shorter
+what about the limitations?
+make study notes
+make a 6 slide presentation
+what's the capital of France?
+What accuracy does BERT get on GLUE?
+tell me about the other one

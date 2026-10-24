@@ -1,0 +1,26 @@
+# Virtual environment
+venv/
+.venv/
+**/venv/
+**/__pycache__/
+*.pyc
+
+# Environment variables & secrets
+.env
+**/.env
+.env.*
+!.env.example
+
+# Data & database
+data/chroma/
+backend/data/chroma/
+data/cache/
+backend/data/cache/
+data/uploads/
+backend/data/uploads/
+
+# Testing & cache
+.pytest_cache/
+**/.pytest_cache/
+.coverage
+htmlcov/

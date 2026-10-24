@@ -1,0 +1,91 @@
+{
+  "_cache_version": 1,
+  "data": {
+    "problem": {
+      "text": "**Problem**\n\nThe prevailing approach to sequence transduction (e.g., machine translation, language modeling) relies on recurrent neural networks (RNNs) or convolutional neural networks (CNNs) as the core building blocks of encoder–decoder architectures. These models process input and output symbols sequentially, which imposes two major bottlenecks:\n\n1. **Sequential computation limits parallelism** – Each hidden state depends on the previous one, so the entire sequence must be processed step‑by‑step. This makes training slow, especially for long sequences, and restricts batch sizes because memory must be shared across all time steps.\n\n2. **Long‑range dependency learning is difficult** – In RNNs the path length between distant positions grows linearly with sequence length, while in CNNs it grows linearly (plain convolutions) or logarithmically (dilated convolutions). Consequently, signals from far‑apart tokens must traverse many layers or time steps, hindering the model’s ability to capture long‑distance relationships.\n\nAttention mechanisms have been introduced to alleviate the distance problem, but in practice they are still coupled to recurrent or convolutional encoders/decoders. Thus, the core computational constraints remain.\n\nThe research challenge addressed in the paper is to design a **fully attention‑based sequence transduction architecture** that eliminates recurrence and convolution entirely, thereby:\n\n- Reducing the number of sequential operations to a constant per layer,\n- Enabling far greater parallelism during training and inference,\n- Shortening the effective path length between any two positions in the network to a constant, which should improve the learning of long‑range dependencies.\n\nThe proposed solution, the Transformer, replaces all recurrent and convolutional layers with self‑attention and feed‑forward sub‑layers, achieving state‑of‑the‑art translation quality while training significantly faster.",
+      "sources": [
+        "[1 Introduction, p. 2]",
+        "[4 Why Self-Attention, pp. 6-7]",
+        "[Abstract, p. 1]",
+        "[2 Background, p. 2]"
+      ]
+    },
+    "method": {
+      "text": "**Method – Transformer (Proposed Model & Architecture)**  \n\n- **Overall Design**  \n  - Encoder–decoder structure (standard in sequence‑to‑sequence models).  \n  - Encoder maps input symbols \\(x_1,\\dots,x_n\\) to continuous representations \\(z_1,\\dots,z_n\\).  \n  - Decoder generates output symbols \\(y_1,\\dots,y_m\\) autoregressively, conditioning on previously generated tokens.  \n  - Entire model is built from attention mechanisms; no recurrent or convolutional layers.\n\n- **Encoder Stack**  \n  - 6 identical layers ( \\(N=6\\) ).  \n  - Each layer has two sub‑layers:  \n    1. **Multi‑head self‑attention** (queries, keys, values all come from the encoder’s previous layer).  \n    2. **Position‑wise feed‑forward network** (two linear transforms with ReLU).  \n  - Residual connection around each sub‑layer followed by layer‑normalization:  \n    \\[\n    \\text{LayerNorm}(x + \\text{Sublayer}(x))\n    \\]\n  - All sub‑layers and embeddings output dimension \\(d_{\\text{model}} = 512\\).\n\n- **Decoder Stack**  \n  - 6 identical layers ( \\(N=6\\) ).  \n  - Each layer has three sub‑layers:  \n    1. **Masked multi‑head self‑attention** (prevent future positions from being attended to).  \n    2. **Multi‑head encoder‑decoder attention** (queries from decoder, keys/values from encoder output).  \n    3. **Position‑wise feed‑forward network**.  \n  - Same residual + layer‑norm pattern as the encoder.  \n  - Masking is implemented by setting illegal positions in the softmax input to \\(-\\infty\\).\n\n- **Self‑Attention Mechanism – Scaled Dot‑Product Attention**  \n  - Inputs: query matrix \\(Q\\), key matrix \\(K\\), value matrix \\(V\\).  \n  - Compute attention scores: \\(QK^\\top / \\sqrt{d_k}\\).  \n  - Apply softmax to obtain weights; weighted sum of values:  \n    \\[\n    \\text{Attention}(Q,K,V) = \\text{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V\n    \\]\n  - Scaling by \\(1/\\sqrt{d_k}\\) prevents large dot‑products that would push the softmax into low‑gradient regions.\n\n- **Multi‑Head Attention**  \n  - Number of heads \\(h = 8\\).  \n  - For each head \\(i\\): linearly project \\(Q,K,V\\) to dimensions \\(d_k = d_v = d_{\\text{model}}/h = 64\\) using learned matrices \\(W_Q^i, W_K^i, W_V^i\\).  \n  - Perform scaled dot‑product attention independently for each head.  \n  - Concatenate the \\(h\\) head outputs and project back to \\(d_{\\text{model}}\\) with \\(W_O\\):  \n    \\[\n    \\text{MultiHead}(Q,K,V) = \\text{Concat}(\\text{head}_1,\\dots,\\text{head}_h)W_O\n    \\]\n  - Allows the model to attend to information in multiple representation subspaces simultaneously.\n\n- **Position‑wise Feed‑Forward Network**  \n  - Applied identically to each position.  \n  - Two linear layers with ReLU in between:  \n    \\[\n    \\text{FFN}(x) = \\max(0, xW_1 + b_1)W_2 + b_2\n    \\]\n  - Input and output dimension \\(d_{\\text{model}} = 512\\); inner layer dimension \\(d_{\\text{ff}} = 2048\\).\n\n- **Embeddings & Softmax**  \n  - Learned token embeddings of dimension \\(d_{\\text{model}}\\).  \n  - Input and output embeddings share the same weight matrix; the same matrix is also used for the pre‑softmax linear transformation.  \n  - Embedding weights are scaled by \\(\\sqrt{d_{\\text{model}}}\\).\n\n- **Positional Encoding**  \n  - Needed because the model has no recurrence or convolution.  \n  - Added to token embeddings at the bottom of both encoder and decoder stacks.  \n  - Same dimensionality as embeddings (\\(d_{\\text{model}}\\)).  \n  - **Sinusoidal form** (chosen for extrapolation ability):  \n    \\[\n    \\text{PE}(pos,2i)   = \\sin\\!\\left(\\frac{pos}{10000^{\\,2i/d_{\\text{model}}}}\\right) \\\\\n    \\text{PE}(pos,2i+1) = \\cos\\!\\left(\\frac{pos}{10000^{\\,2i/d_{\\text{model}}}}\\right)\n    \\]\n    where \\(pos\\) is the token position and \\(i\\) indexes the dimension.  \n  - Wavelengths form a geometric progression from \\(2\\pi\\) to \\(10000 \\cdot 2\\pi\\).  \n  - The sinusoidal encoding allows the model to learn relative positions linearly; experiments with learned positional embeddings gave similar results, but the sinusoidal version was preferred for potential extrapolation to longer sequences.\n\nThese components together constitute the Transformer’s method: a fully attention‑based encoder–decoder architecture with multi‑head self‑attention, masked self‑attention in the decoder, position‑wise feed‑forward networks, and sinusoidal positional encodings.",
+      "sources": [
+        "[3 Model Architecture, pp. 2-4]",
+        "[7 Conclusion, p. 10]",
+        "[3 Model Architecture, pp. 4-5]",
+        "[3 Model Architecture, pp. 5-6]"
+      ]
+    },
+    "dataset_and_setup": {
+      "text": "**Dataset & Setup**\n\n- **Datasets & Benchmarks**  \n  - *WMT 2014 English‑German*: ~4.5 M sentence pairs.  \n  - *WMT 2014 English‑French*: 36 M sentence pairs.  \n  - Tokenization: English‑German uses byte‑pair encoding (shared source‑target vocab ≈ 37 k tokens); English‑French uses a 32 k word‑piece vocabulary.  \n  - Batching: Sentences are grouped by approximate length; each training batch contains ≈ 25 k source tokens and ≈ 25 k target tokens.  \n  - Evaluation: newstest 2014 test sets for final BLEU scores; newstest 2013 dev set used for development and model‑variation experiments (Table 3).\n\n- **Hardware**  \n  - Single machine with **8 NVIDIA P100 GPUs** (≈ 9.5 TFLOPS each).  \n  - Base models: 0.4 s per training step → 100 k steps ≈ 12 h.  \n  - Big models: 1.0 s per step → 300 k steps ≈ 3.5 days.  \n  - Training cost estimated as *time × #GPUs × GPU TFLOPS* (e.g., 3.3 × 10¹⁸ FLOPs for base, 2.3 × 10¹⁹ FLOPs for big).\n\n- **Optimizer & Learning‑rate Schedule**  \n  - Adam optimizer: β₁ = 0.9, β₂ = 0.98, ε = 1 × 10⁻⁹.  \n  - Learning‑rate formula (Eq. 3):  \n    \\[\n    \\text{lrate} = d_{\\text{model}}^{-0.5}\\,\n    \\min\\!\\big(step^{-0.5},\\; step \\times warmup\\_steps^{-1.5}\\big)\n    \\]  \n    with **warmup_steps = 4000** (linear warm‑up, then inverse‑sqrt decay).\n\n- **Regularization**  \n  - Residual dropout applied to each sub‑layer output before addition and layer‑norm.  \n  - Dropout also applied to the sum of embeddings and positional encodings.  \n  - Base model dropout rate **Pdrop = 0.1** (same for the English‑French big model; the English‑German big model uses the same rate unless otherwise noted).  \n  - No other regularization details are provided in the excerpts.\n\n- **Training Schedule & Checkpointing**  \n  - **Base models**: 100 k steps, 12 h total.  \n  - **Big models**: 300 k steps, 3.5 days total.  \n  - Checkpoints written every 10 min.  \n  - Final model is an average of the last **5 checkpoints** for base models and the last **20 checkpoints** for big",
+      "sources": [
+        "[5 Training, pp. 7-8]",
+        "[6 Results, pp. 8-9]",
+        "[Abstract, p. 1]",
+        "[7 Conclusion, p. 10]"
+      ]
+    },
+    "key_results": {
+      "text": "**Key Empirical Results**\n\n| Task | Model | BLEU (newstest2014) | Training Cost (FLOPs) | Training Time |\n|------|-------|---------------------|-----------------------|---------------|\n| EN‑DE | Transformer (base) | 27.3 | 3.3 × 10¹⁸ | 12 h (100 k steps, 0.4 s/step, 8 × P100) |\n| EN‑DE | Transformer (big) | 28.4 | 2.3 × 10¹⁹ | 3.5 days (300 k steps, 1.0 s/step, 8 × P100) |\n| EN‑FR | Transformer (base) | 38.1 | 3.3 × 10¹⁸ | 12 h |\n| EN‑FR | Transformer (big) | 41.8 | 2.3 × 10¹⁹ | 3.5 days |\n\n*The big Transformer outperforms all previously reported single‑model results by more than 2 BLEU on EN‑DE and by over 3 BLEU on EN‑FR, while requiring only a fraction of the training cost of earlier state‑of‑the‑art systems (e.g., ConvS2S ensembles, GNMT+RL ensembles).*\n\n**Training‑Cost Comparison**\n\n- FLOPs are estimated as:  \n  `steps × step_time × #GPUs × GPU_TFLOPS`.  \n  For the big model: 300 k steps × 1 s × 8 × 9.5 TFLOPS ≈ 2.3 × 10¹⁹ FLOPs.  \n  For the base model: 100 k steps × 0.4 s × 8 × 9.5 TFLOPS ≈ 3.3 × 10¹⁸ FLOPs.\n\n- The big model trains in 3.5 days on 8 × P100 GPUs, whereas the best previous single‑model results (e.g., ConvS2S, GNMT+RL) required several times more GPU‑hours and FLOPs.\n\n**Ablation Studies (English‑to‑German dev set, newstest2013)**\n\n| Variant | d_model | d_ff | heads | dk | dv | Pdrop | ϵls | Dev PPL | Dev BLEU | Params (M) |\n|---------|---------|------|-------|----|----|-------|-----|---------|----------|",
+      "sources": [
+        "[6 Results, pp. 8-9]",
+        "[Abstract, p. 1]",
+        "[5 Training, pp. 7-8]",
+        "[5 Training, p. 8]"
+      ]
+    },
+    "limitations": {
+      "text": "**Limitations, Trade‑offs, Constraints, and Future Work**\n\n- **Reduced Effective Resolution**  \n  Self‑attention computes each output position as an attention‑weighted average of all input positions. This averaging can lower the effective resolution of the representation. The authors mitigate this by using Multi‑Head Attention, but the issue remains a trade‑off inherent to the architecture.\n\n- **Scalability to Very Long Sequences**  \n  While a self‑attention layer connects all positions with a constant number of sequential operations, its computational cost grows as \\(O(n^2d)\\) (where \\(n\\) is sequence length and \\(d\\) the dimensionality). For very long inputs or outputs, this quadratic cost can become prohibitive. The authors suggest restricting attention to a local window of size \\(r\\) (reducing the path length to \\(O(n/r)\\)) as a potential remedy, but this approach has not yet been explored.\n\n- **Sequential Generation**  \n  The Transformer still generates output tokens one at a time during inference, which limits parallelism in the decoding phase. The authors identify “making generation less sequential” as a future research goal, implying that current generation remains a bottleneck.\n\n- **Handling Non‑Text Modalities**  \n  The current model is evaluated only on text‑to‑text translation tasks. Extending the architecture to modalities such as images, audio, or video would require efficient handling of much larger input and output spaces. The authors plan to investigate local, restricted attention mechanisms specifically for these large‑scale modalities.\n\n- **Computational Complexity Relative to Sequence Length**  \n  Self‑attention is faster than recurrent layers when the sequence length \\(n\\) is smaller than the representation dimensionality \\(d\\) (common in sentence‑level models). However, for tasks where \\(n\\) approaches or exceeds \\(d\\), the advantage diminishes, and the authors note that this is a constraint of the current design.\n\n- **Future Work Directions**  \n  1. Apply the Transformer to tasks beyond machine translation (e.g., summarization, question answering).  \n  2. Explore local or restricted attention mechanisms to improve efficiency on long sequences and multimodal inputs.  \n  3. Investigate methods to reduce or eliminate the sequential nature of generation.  \n  4. Extend the architecture to handle large inputs/outputs such as images, audio, and video.\n\nThese points summarize the explicit limitations, trade‑offs, and future research directions mentioned by the authors in the provided excerpts.",
+      "sources": [
+        "[7 Conclusion, p. 10]",
+        "[2 Background, p. 2]",
+        "[1 Introduction, p. 2]",
+        "[4 Why Self-Attention, pp. 6-7]"
+      ]
+    },
+    "key_terms": [
+      {
+        "term": "Transformer",
+        "definition": "A model architecture that eschews recurrence and instead relies entirely on an attention mechanism to draw global dependencies between input and output."
+      },
+      {
+        "term": "self‑attention",
+        "definition": "An attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence."
+      },
+      {
+        "term": "multi‑head attention",
+        "definition": "A mechanism that linearly projects queries, keys and values h times with different learned projections to dk, dk and dv dimensions, performs scaled dot‑product attention on each projected set in parallel, concatenates the results, and projects them again to produce the final output."
+      },
+      {
+        "term": "scaled dot‑product attention",
+        "definition": "An attention function that computes the dot products of a query with all keys, divides each by √dk, applies a softmax to obtain weights, and then takes a weighted sum of the values."
+      },
+      {
+        "term": "positional encoding",
+        "definition": "Sine and cosine functions of different frequencies added to input embeddings to inject information about the relative or absolute position of tokens; each dimension corresponds to a sinusoid with wavelengths forming a geometric progression."
+      },
+      {
+        "term": "residual connection",
+        "definition": "A connection that adds the input of a sub‑layer to its output before applying layer normalization, expressed as LayerNorm(x + Sublayer(x))."
+      },
+      {
+        "term": "layer normalization",
+        "definition": "A normalization step applied after a residual connection that normalizes across the features of a layer."
+      },
+      {
+        "term": "encoder‑decoder architecture",
+        "definition": "An overall structure where an encoder maps an input sequence to continuous representations, and a decoder generates an output sequence one element at a time, consuming previously generated symbols in an auto‑regressive manner."
+      }
+    ],
+    "revision_questions": [
+      "Explain why the authors scale dot products by \\(1/\\sqrt{d_k}\\) in the scaled dot‑product attention mechanism. How does this scaling influence the gradient dynamics compared to using unscaled dot‑product attention, especially for large values of \\(d_k\\)?",
+      "Compare the maximum path length between any two positions in a self‑attention layer, a recurrent layer, and a convolutional layer with kernel size \\(k\\). How does this difference affect each architecture’s capacity to model long‑range dependencies?",
+      "Discuss the purpose of multi‑head attention in the Transformer. Why does dividing the attention into multiple heads help avoid the averaging effect that would arise with a single attention head?",
+      "The Transformer adds sinusoidal positional encodings to token embeddings. Explain how this particular encoding scheme enables the model to extrapolate to sequence lengths longer than those seen during training, and contrast it with the use of learned positional embeddings.",
+      "The Transformer achieves 28.4 BLEU on WMT 2014 En→De and 41.8 BLEU on En→Fr while requiring significantly less training time than previous state‑of‑the‑art models. Analyze the key architectural and training factors that contribute to this performance and efficiency advantage."
+    ]
+  }
+}
