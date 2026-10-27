@@ -56,29 +56,41 @@ def render_notes_view(token: str, doc_id: str):
                     st.markdown(render_citations_to_html(field_data), unsafe_allow_html=True)
 
     # Key Terms
-    key_terms: List[Dict[str, Any]] = notes_data.get("key_terms", [])
-    if key_terms:
+    key_terms = notes_data.get("key_terms", [])
+    if key_terms and isinstance(key_terms, list):
         with st.expander(f"🔑 Key Terms ({len(key_terms)})", expanded=True):
             for t in key_terms:
-                term = t.get("term", "")
-                definition = t.get("definition", "")
-                sources = t.get("sources", [])
+                if isinstance(t, dict):
+                    term = t.get("term", "")
+                    definition = t.get("definition", "")
+                    sources = t.get("sources", [])
+                else:
+                    term = str(t)
+                    definition = ""
+                    sources = []
                 st.markdown(f"**{term}**")
-                st.markdown(render_citations_to_html(definition), unsafe_allow_html=True)
+                if definition:
+                    st.markdown(render_citations_to_html(definition), unsafe_allow_html=True)
                 if sources:
                     st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
                 st.markdown("---")
 
     # Revision Questions
-    questions: List[Dict[str, Any]] = notes_data.get("revision_questions", [])
-    if questions:
+    questions = notes_data.get("revision_questions", [])
+    if questions and isinstance(questions, list):
         with st.expander(f"❓ Revision Questions ({len(questions)})", expanded=True):
             for idx, q in enumerate(questions, start=1):
-                question_text = q.get("question", "")
-                expected = q.get("expected_answer", "")
-                sources = q.get("sources", [])
+                if isinstance(q, dict):
+                    question_text = q.get("question", "")
+                    expected = q.get("expected_answer", q.get("answer", ""))
+                    sources = q.get("sources", [])
+                else:
+                    question_text = str(q)
+                    expected = ""
+                    sources = []
                 st.markdown(f"**Q{idx}: {question_text}**")
-                st.markdown(render_citations_to_html(f"*Answer:* {expected}"), unsafe_allow_html=True)
+                if expected:
+                    st.markdown(render_citations_to_html(f"*Answer:* {expected}"), unsafe_allow_html=True)
                 if sources:
                     st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
                 st.markdown("---")

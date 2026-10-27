@@ -78,19 +78,26 @@ def outline_to_markdown(outline_data: Dict[str, Any]) -> str:
     lines.append(f"# {title}\n")
 
     slides = outline_data.get("slides", [])
-    for idx, slide in enumerate(slides, start=1):
-        slide_num = slide.get("slide_number", idx)
-        slide_title = slide.get("title", f"Slide {slide_num}")
-        lines.append(f"## Slide {slide_num}: {slide_title}")
+    if isinstance(slides, list):
+        for idx, slide in enumerate(slides, start=1):
+            if isinstance(slide, dict):
+                slide_num = slide.get("slide_number", idx)
+                slide_title = slide.get("title", f"Slide {slide_num}")
+                source = slide.get("source", "")
+                bullets = slide.get("bullets", []) or slide.get("points", [])
+            else:
+                slide_num = idx
+                slide_title = f"Slide {slide_num}"
+                source = ""
+                bullets = [str(slide)]
 
-        source = slide.get("source", "")
-        if source:
-            lines.append(f"**Sources:** {source}\n")
+            lines.append(f"## Slide {slide_num}: {slide_title}")
+            if source:
+                lines.append(f"**Sources:** {source}\n")
 
-        bullets = slide.get("bullets", []) or slide.get("points", [])
-        for b in bullets:
-            lines.append(f"- {b}")
-        lines.append("")
+            for b in bullets:
+                lines.append(f"- {b}")
+            lines.append("")
 
     return "\n".join(lines).strip()
 
@@ -102,19 +109,26 @@ def outline_to_text(outline_data: Dict[str, Any]) -> str:
     lines.append(f"{title.upper()}\n{'=' * len(title)}\n")
 
     slides = outline_data.get("slides", [])
-    for idx, slide in enumerate(slides, start=1):
-        slide_num = slide.get("slide_number", idx)
-        slide_title = slide.get("title", f"Slide {slide_num}")
-        lines.append(f"Slide {slide_num}: {slide_title}")
+    if isinstance(slides, list):
+        for idx, slide in enumerate(slides, start=1):
+            if isinstance(slide, dict):
+                slide_num = slide.get("slide_number", idx)
+                slide_title = slide.get("title", f"Slide {slide_num}")
+                source = slide.get("source", "")
+                bullets = slide.get("bullets", []) or slide.get("points", [])
+            else:
+                slide_num = idx
+                slide_title = f"Slide {slide_num}"
+                source = ""
+                bullets = [str(slide)]
 
-        source = slide.get("source", "")
-        if source:
-            lines.append(f"Sources: {source}")
+            lines.append(f"Slide {slide_num}: {slide_title}")
+            if source:
+                lines.append(f"Sources: {source}")
 
-        bullets = slide.get("bullets", []) or slide.get("points", [])
-        for b in bullets:
-            lines.append(f"  * {b}")
-        lines.append("")
+            for b in bullets:
+                lines.append(f"  * {b}")
+            lines.append("")
 
     return "\n".join(lines).strip()
 

@@ -62,16 +62,23 @@ def render_outline_view(token: str, doc_id: str):
     st.markdown("---")
 
     # Render slides sequentially
-    slides: List[Dict[str, Any]] = outline_data.get("slides", [])
-    for idx, slide in enumerate(slides, start=1):
-        slide_num = slide.get("slide_number", idx)
-        slide_title = slide.get("title", f"Slide {slide_num}")
-        source = slide.get("source", "")
-        bullets = slide.get("bullets", []) or slide.get("points", [])
+    slides = outline_data.get("slides", [])
+    if isinstance(slides, list):
+        for idx, slide in enumerate(slides, start=1):
+            if isinstance(slide, dict):
+                slide_num = slide.get("slide_number", idx)
+                slide_title = slide.get("title", f"Slide {slide_num}")
+                source = slide.get("source", "")
+                bullets = slide.get("bullets", []) or slide.get("points", [])
+            else:
+                slide_num = idx
+                slide_title = f"Slide {slide_num}"
+                source = ""
+                bullets = [str(slide)]
 
-        with st.container(border=True):
-            st.markdown(f"### Slide {slide_num}: {slide_title}")
-            if source:
-                st.markdown(f"**Sources:** {render_citations_to_html(source)}", unsafe_allow_html=True)
-            for b in bullets:
-                st.markdown(f"- {b}")
+            with st.container(border=True):
+                st.markdown(f"### Slide {slide_num}: {slide_title}")
+                if source:
+                    st.markdown(f"**Sources:** {render_citations_to_html(source)}", unsafe_allow_html=True)
+                for b in bullets:
+                    st.markdown(f"- {b}")
