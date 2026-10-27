@@ -1,0 +1,40 @@
+# ========================================================
+# Dockerfile for Academic Research Assistant Backend
+# ========================================================
+FROM python:3.11-slim
+
+# Prevent Python from writing .pyc files and enable unbuffered logging
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT=8000
+
+WORKDIR /app
+
+# Install system dependencies required for PyMuPDF and SQLite
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PyTorch CPU-only first to keep Docker image size small (~800MB vs 5GB+ with CUDA)
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+# Install backend dependencies
+COPY academic-assistant/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application source code
+COPY academic-assistant/backend /app/backend
+
+# Ensure persistent directories exist
+RUN mkdir -p /app/backend/data/uploads /app/backend/data/chroma /app/backend/data/cache
+
+WORKDIR /app/backend
+
+# Declare volume for persistent SQLite DB, Chroma vector store, and cached artifacts
+VOLUME ["/app/backend/data"]
+
+EXPOSE 8000
+
+# Start Uvicorn binding to 0.0.0.0 and dynamically honoring cloud container $PORT
+CMD ["sh", "-c", "uvicorn app.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

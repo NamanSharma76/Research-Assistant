@@ -1,7 +1,14 @@
 """Main Streamlit application entry point for the Academic Research & Learning Assistant."""
 import os
+import sys
+from pathlib import Path
 import streamlit as st
 from typing import List, Dict, Any, Optional
+
+# Ensure frontend directory is at head of sys.path across cloud deployment environments
+frontend_dir = Path(__file__).resolve().parent
+if str(frontend_dir) not in sys.path:
+    sys.path.insert(0, str(frontend_dir))
 
 import api_client
 from components import render_status_badge, render_error_message

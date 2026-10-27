@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: academic-assistant-backend
+    runtime: docker
+    dockerfilePath: ./academic-assistant/Dockerfile.backend
+    plan: starter
+    region: oregon
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: "https://*.streamlit.app,http://localhost:8501"
+    disk:
+      name: assistant-data
+      mountPath: /app/backend/data
+      sizeGB: 5
