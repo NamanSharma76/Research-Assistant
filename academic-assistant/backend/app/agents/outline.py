@@ -36,8 +36,19 @@ def generate_outline(doc_id: str, num_slides: int = 10, force: bool = False) -> 
     if notes_data is None:
         notes_data = generate_notes(doc_id, force=force)
 
-    summary_text = summary_data.get("overall", "")
-    notes_text = json.dumps(notes_data, indent=2)
+    summary_text = summary_data.get("overall", "")[:2500]
+    # Compact notes text to fit within MAX_PROMPT_TOKENS
+    compact_notes = {}
+    for k in ["problem", "method", "dataset_and_setup", "key_results", "limitations"]:
+        f_data = notes_data.get(k, {})
+        if isinstance(f_data, dict):
+            compact_notes[k] = {
+                "text": f_data.get("text", "")[:1200],
+                "sources": f_data.get("sources", [])[:3]
+            }
+        elif isinstance(f_data, str):
+            compact_notes[k] = {"text": f_data[:1200], "sources": []}
+    notes_text = json.dumps(compact_notes, indent=2)
 
     prompt = OUTLINE_PROMPT.format(
         summary=summary_text,

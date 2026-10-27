@@ -4,7 +4,7 @@ SECTION_SUMMARY_PROMPT = """You are an academic research assistant summarizing a
 Synthesize the key points, findings, and methodology discussed in this section.
 Use ONLY facts stated directly in the text below.
 When citing facts, cite the section and page using format [Section, p. X] or [Section, pp. X-Y].
-Do not state as fact anything the excerpts present as a hypothesis or possibility (words like may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both.
+Do not state as fact anything the excerpts present as a hypothesis or possibility (may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both. Do not add praise or editorial claims.
 
 Section Name: {section_name}
 
@@ -42,12 +42,15 @@ Synthesize an overall executive summary (3-5 paragraphs) covering:
 3. Key experimental findings and comparative results
 4. Significance and implications
 
-Do not state as fact anything the excerpts present as a hypothesis or possibility (words like may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both.
+Requirements:
+- Ground all facts strictly in the section summaries provided below.
+- You MUST include accurate citations in the format [Section, p. X] or [Section, pp. X-Y] drawn directly from the section summaries.
+- Do not state as fact anything the excerpts present as a hypothesis or possibility (may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both. Do not add praise or editorial claims.
 
 Section Summaries:
 {section_summaries}
 
-Produce a well-structured executive summary.
+Produce a well-structured executive summary with citations.
 """
 
 NOTE_FIELD_PROMPT = """You are an academic research assistant preparing structured study notes from a research paper.
@@ -59,7 +62,7 @@ Relevant Excerpts:
 
 Instructions:
 Extract and synthesize the relevant details strictly grounded in the excerpts above.
-Do not state as fact anything the excerpts present as a hypothesis or possibility (words like may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both.
+Do not state as fact anything the excerpts present as a hypothesis or possibility (may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both. Do not add praise or editorial claims.
 Do not invent information. If the excerpts do not contain enough information, state that clearly.
 Output plain text synthesizing the answer.
 """
@@ -108,7 +111,7 @@ Requirements:
 - Slide numbers MUST be consecutively numbered from 1 to {num_slides} (slide_number: 1, 2, ..., {num_slides}).
 - Each slide must have a clear title, 3 to 5 concise bullet points, and a list of source_fields from the notes it draws on: ["problem", "method", "dataset_and_setup", "key_results", "limitations"].
 - Cover Title/Introduction, Motivation/Problem, Method/Architecture, Experiments/Results, and Conclusion/Takeaways logically distributed across the {num_slides} slides.
-- Do not state as fact anything the excerpts present as a hypothesis or possibility (words like may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both.
+- Do not state as fact anything the excerpts present as a hypothesis or possibility (may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both. Do not add praise or editorial claims.
 
 Return a valid JSON object matching this schema:
 {{

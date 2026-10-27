@@ -41,10 +41,29 @@ GROQ_MODEL_MAIN = os.getenv("GROQ_MODEL_MAIN", "openai/gpt-oss-120b")
 GROQ_MODEL_FAST = os.getenv("GROQ_MODEL_FAST", "openai/gpt-oss-20b")
 
 # Cache Settings
-CACHE_VERSION = int(os.getenv("CACHE_VERSION", 1))
+CACHE_VERSION = int(os.getenv("CACHE_VERSION", 2))
 
 # Orchestration & Router Settings
 MAX_QA_RETRIES = int(os.getenv("MAX_QA_RETRIES", 1))
 ROUTER_HISTORY_TURNS = int(os.getenv("ROUTER_HISTORY_TURNS", 4))
 ROUTER_MIN_CONFIDENCE = float(os.getenv("ROUTER_MIN_CONFIDENCE", 0.5))
+
+# Database & Authentication Configuration
+default_db_path = (DATA_DIR / "app.db").resolve()
+raw_db_url = os.getenv("DATABASE_URL", "")
+if not raw_db_url:
+    DATABASE_URL = f"sqlite:///{default_db_path}"
+elif raw_db_url.startswith("sqlite:///data/"):
+    DATABASE_URL = f"sqlite:///{DATA_DIR / raw_db_url.split('sqlite:///data/')[1]}"
+elif raw_db_url.startswith("sqlite:///backend/data/"):
+    DATABASE_URL = f"sqlite:///{DATA_DIR / raw_db_url.split('sqlite:///backend/data/')[1]}"
+else:
+    DATABASE_URL = raw_db_url
+
+JWT_SECRET = os.getenv("JWT_SECRET", "")
+JWT_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", 60))
+MAX_UPLOAD_MB = int(os.getenv("MAX_UPLOAD_MB", 20))
+CORS_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:8501").split(",") if origin.strip()]
+CHAT_HISTORY_LOAD_TURNS = int(os.getenv("CHAT_HISTORY_LOAD_TURNS", 4))
+
 

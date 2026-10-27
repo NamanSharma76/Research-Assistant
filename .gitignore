@@ -2,6 +2,7 @@
 venv/
 .venv/
 **/venv/
+**/.venv/
 **/__pycache__/
 *.pyc
 
@@ -10,16 +11,18 @@ venv/
 **/.env
 .env.*
 !.env.example
+.streamlit/
+**/.streamlit/
 
-# Data & database
-data/chroma/
-backend/data/chroma/
-data/cache/
-backend/data/cache/
-data/uploads/
-backend/data/uploads/
+# Data & vector databases & caches
+**/data/chroma/
+**/data/cache/
+**/data/uploads/*/
+**/data/*.db
+**/data/*.db-journal
+**/data/*.json
 
-# Testing & cache
+# Testing & build artifacts
 .pytest_cache/
 **/.pytest_cache/
 .coverage

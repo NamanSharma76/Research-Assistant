@@ -23,20 +23,21 @@ Available Document Sections:
 {doc_sections_str}
 
 INTENT DEFINITIONS:
-1. paper_question: Asking for factual or conceptual information from the paper, or machine learning concepts discussed in the paper such as beam search, BLEU scores, or training setups (e.g., "What BLEU score did it achieve?", "How does beam search work in machine translation?").
-   Note: A follow-up asking for NEW or ADDITIONAL information from the paper (e.g., "what about the limitations?", "tell me about the other dataset", "how many layers did they use?") is paper_question.
-2. summarize: Asking to summarize the whole paper or a specific section (e.g., "summarize section 6", "give me a summary of the paper").
-3. notes: Asking to generate comprehensive study notes or key concepts (e.g., "make study notes", "generate notes for this paper").
-4. outline: Asking to generate a presentation outline or slide deck (e.g., "make a presentation outline", "create 8 slides").
-5. rephrase_previous: Asking to change the style, length, or format of the IMMEDIATELY PRECEDING output without asking for new facts (e.g., "explain that more simply", "shorter", "make it more concise", "give an everyday analogy"). Only valid if Last Output Kind is not 'none'.
-6. off_topic: Asking about external models not in this paper (e.g., BERT, GPT-4, ResNet), general world knowledge, or unrelated topics with no connection to the paper (e.g., "what is the capital of France?", "write a poem about cats", "What accuracy does BERT get on GLUE?").
-7. needs_clarification: Genuinely ambiguous request where the user's intent cannot be inferred even with conversation context (e.g., "tell me about the other one" when no comparison exists in history or context).
+1. paper_question: Asking for factual, conceptual, or methodological information from the paper, or questions about machine learning, natural language processing, mathematics, or science related to research papers. Any question about ML, NLP or science—even if the specific paper may not cover it—is paper_question (retrieval and the answer step decide whether the paper covers it).
+   Note: A follow-up asking for new or additional information from the paper is paper_question.
+2. summarize: Asking to summarize the whole paper or a specific section.
+3. notes: Asking to generate comprehensive study notes, key terms, or revision concepts.
+4. outline: Asking to generate a presentation outline or slide deck.
+5. rephrase_previous: Asking to change the style, length, format, or language of the IMMEDIATELY PRECEDING output without asking for new facts (e.g. simpler, shorter, more concise, analogy, translate). Only valid if Last Output Kind is not 'none'.
+6. off_topic: Questions clearly unrelated to research papers or studying (such as weather, general geography trivia, celebrity trivia, unrelated coding tasks, casual chit-chat).
+7. needs_clarification: Genuinely ambiguous request where the user's intent cannot be inferred even with conversation context.
 
 RULES:
-- Rewrite the user message as a clear, self-contained `standalone_query` resolving pronouns ('it', 'that', 'the other one', 'more', 'shorter') using history. If history mentions two entities (e.g. English-German and English-French) and user says 'the other one', resolve it to the unelaborated entity.
+- A reference such as "the other one", "that", "it" must be resolved ONLY from the visible history. If the history does not contain a clear single referent, return needs_clarification.
+- First rewrite the user message as a concise, self-contained `standalone_query` (under 20 words) resolving pronouns and context using the visible history. Do not generate lists of synonyms or repetitive query expansions.
 - If intent is summarize and a specific section is requested, set `section` to the exact matching section name from Available Document Sections, or null for whole paper.
 - If intent is outline and a slide count is requested, set `num_slides` to that integer.
-- When unsure between paper_question and another intent (or if an isolated word like 'shorter' has no previous output), default to paper_question.
+- When unsure between paper_question and anything else, choose paper_question, except for ambiguous references (which must be needs_clarification).
 
 Return a valid JSON object matching the schema:
 {{

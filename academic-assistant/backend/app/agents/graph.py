@@ -68,6 +68,7 @@ def router_node(state: AgentState) -> Dict[str, Any]:
         last_output=state.get("last_output"),
         doc_sections=doc_sections,
     )
+    time.sleep(LLM_CALL_DELAY_SECONDS)
     return {"decision": decision, "trace": trace}
 
 
@@ -172,7 +173,8 @@ def rephrase_node(state: AgentState) -> Dict[str, Any]:
 
     prompt = (
         f"Rewrite the text below according to the instruction. Do not add new facts. "
-        f"Keep existing [Section, p. X] citations unchanged.\n\n"
+        f"Keep existing [Section, p. X] citations unchanged. "
+        f"Do not state as fact anything the excerpts present as a hypothesis or possibility (may, might, we hypothesize, we plan to). Report it as the authors state it. If the paper gives two different numbers for the same result, mention both. Do not add praise or editorial claims.\n\n"
         f"Instruction: {instruction}\n\n"
         f"Text:\n{last_text}\n\n"
         f"Rewritten Text:"
@@ -356,13 +358,18 @@ compiled_app = build_graph().compile()
 class ChatSession:
     """Manages conversation state and graph execution across turns for a document."""
 
-    def __init__(self, doc_id: str):
+    def __init__(
+        self,
+        doc_id: str,
+        history: Optional[List[Dict[str, str]]] = None,
+        last_output: Optional[Dict[str, Any]] = None,
+    ):
         self.doc_id = doc_id
-        self.history: List[Dict[str, str]] = []
-        self.last_output: Dict[str, Any] = {"kind": "none", "text": ""}
+        self.history: List[Dict[str, str]] = list(history) if history is not None else []
+        self.last_output: Dict[str, Any] = dict(last_output) if last_output is not None else {"kind": "none", "text": ""}
 
     def ask(self, user_message: str) -> TurnResult:
-        reset_call_count()
+        initial_call_count = get_call_count()
         t0 = time.time()
 
         initial_state: AgentState = {
@@ -386,7 +393,7 @@ class ChatSession:
         self.last_output = final_state.get("last_output", self.last_output)
 
         elapsed = time.time() - t0
-        calls = get_call_count()
+        turn_calls = get_call_count() - initial_call_count
         decision = final_state.get("decision")
         intent = decision.intent if decision else "paper_question"
         standalone_q = decision.standalone_query if decision else user_message
@@ -398,6 +405,6 @@ class ChatSession:
             intent=intent,
             standalone_query=standalone_q,
             trace=trace,
-            llm_calls=calls,
+            llm_calls=turn_calls,
             seconds=elapsed,
         )
