@@ -126,11 +126,23 @@ def summarize_document(doc_id: str, force: bool = False) -> Dict[str, Any]:
         f"### {sec}\n{summ}" for sec, summ in section_summaries.items()
     )
     overall_prompt = DOCUMENT_OVERALL_SUMMARY_PROMPT.format(section_summaries=joined_summaries)
-    overall_summary = generate(overall_prompt, model=GROQ_MODEL_MAIN)
+    raw_overall_summary = generate(overall_prompt, model=GROQ_MODEL_MAIN)
     time.sleep(LLM_CALL_DELAY_SECONDS)
 
+    # Collect union of all chunks belonging to content sections for citation verification
+    content_chunks = [
+        c for c in all_chunks
+        if c.get("section", "Unknown").strip().lower() not in NON_CONTENT_SECTIONS
+    ]
+
+    verified = verify_citations(raw_overall_summary, content_chunks)
+    if verified["unsupported"]:
+        clean_overall = strip_unsupported_citations(raw_overall_summary, verified["unsupported"])
+    else:
+        clean_overall = raw_overall_summary
+
     result = {
-        "overall": overall_summary,
+        "overall": clean_overall,
         "sections": section_summaries,
     }
 

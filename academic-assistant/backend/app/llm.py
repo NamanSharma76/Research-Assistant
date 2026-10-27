@@ -3,6 +3,7 @@ import os
 import re
 import time
 import json
+import contextvars
 from typing import Optional, Any, Type
 from groq import Groq, RateLimitError, APIStatusError
 from pydantic import BaseModel, ValidationError
@@ -10,47 +11,61 @@ from app.config import GROQ_API_KEY, GROQ_MODEL_MAIN, GROQ_MODEL_FAST
 
 # Singleton client reference
 _client: Optional[Groq] = None
-_call_count: int = 0
-_rate_limit_retries: int = 0
-_call_records: list = []
+
+# Thread-local storage for request/thread level call stats
+import threading
+
+class CallStatsLocal:
+    def __init__(self):
+        self.call_count = 0
+        self.rate_limit_retries = 0
+        self.records = []
+
+_thread_local = threading.local()
+
+
+def _get_stats_tracker() -> CallStatsLocal:
+    if not hasattr(_thread_local, "stats"):
+        _thread_local.stats = CallStatsLocal()
+    return _thread_local.stats
 
 
 def get_call_count() -> int:
-    """Returns the total number of LLM completion calls made."""
-    global _call_count
-    return _call_count
+    """Returns the total number of LLM completion calls made in the current thread/request."""
+    return _get_stats_tracker().call_count
 
 
 def reset_call_count() -> None:
-    """Resets the LLM call counter to zero."""
-    global _call_count
-    _call_count = 0
+    """Resets the LLM call counter to zero in the current thread/request."""
+    _get_stats_tracker().call_count = 0
 
 
 def get_call_stats() -> dict:
     """Returns aggregated call stats: total calls, 429 retries, slowest call info, call records."""
-    global _call_count, _rate_limit_retries, _call_records
+    tracker = _get_stats_tracker()
     slowest_seconds = 0.0
     slowest_model = "none"
-    for r in _call_records:
+    for r in tracker.records:
         if r.get("seconds", 0.0) > slowest_seconds:
             slowest_seconds = r["seconds"]
             slowest_model = r.get("model", "unknown")
     return {
-        "call_count": _call_count,
-        "rate_limit_retries": _rate_limit_retries,
+        "call_count": tracker.call_count,
+        "rate_limit_retries": tracker.rate_limit_retries,
         "slowest_seconds": slowest_seconds,
         "slowest_model": slowest_model,
-        "records": list(_call_records),
+        "records": list(tracker.records),
     }
 
 
 def reset_call_stats() -> None:
-    """Resets call counter, 429 retries, and call records."""
-    global _call_count, _rate_limit_retries, _call_records
-    _call_count = 0
-    _rate_limit_retries = 0
-    _call_records = []
+    """Resets call counter, 429 retries, and call records in current thread/request."""
+    tracker = _get_stats_tracker()
+    tracker.call_count = 0
+    tracker.rate_limit_retries = 0
+    tracker.records = []
+
+
 
 
 def estimate_tokens(text: str) -> int:
@@ -147,9 +162,11 @@ def generate(
                 temperature=temperature,
             )
             elapsed = time.time() - t_start
-            _call_count += 1
-            _rate_limit_retries += attempt_retries_429
-            _call_records.append({
+            # Success
+            tracker = _get_stats_tracker()
+            tracker.call_count += 1
+            tracker.rate_limit_retries += attempt_retries_429
+            tracker.records.append({
                 "model": selected_model,
                 "seconds": elapsed,
                 "retries_429": attempt_retries_429,
@@ -166,10 +183,10 @@ def generate(
             retry_match = re.search(r"try again in ([\d\.]+)s", str(e))
             sleep_time = float(retry_match.group(1)) + 1.0 if retry_match else delay
             if attempt == max_retries:
-                _rate_limit_retries += attempt_retries_429
+                _get_stats_tracker().rate_limit_retries += attempt_retries_429
                 raise e
             time.sleep(sleep_time)
-            delay *= backoff_factor
+            delay = min(delay * backoff_factor, 15.0)
         except APIStatusError as e:
             # Handle HTTP 429 status if delivered as general APIStatusError
             if getattr(e, "status_code", None) == 429 and attempt < max_retries:
@@ -180,7 +197,7 @@ def generate(
                 delay *= backoff_factor
                 continue
             if getattr(e, "status_code", None) == 429:
-                _rate_limit_retries += attempt_retries_429
+                _get_stats_tracker().rate_limit_retries += attempt_retries_429
             raise e
 
 

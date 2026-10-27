@@ -125,8 +125,8 @@
     "history": [],
     "last_output_kind": "none",
     "message": "What accuracy does BERT get on GLUE?",
-    "expected_intent": "off_topic",
-    "description": "Tricky: ML topic but unrelated to this specific paper (Transformer introduces attention, BERT was 2018)"
+    "expected_intent": "paper_question",
+    "description": "ML question even if not covered in this paper (paper_question)"
   },
   {
     "id": 16,
@@ -134,7 +134,7 @@
     "last_output_kind": "none",
     "message": "tell me about the other one",
     "expected_intent": "needs_clarification",
-    "description": "Tricky: Ambiguous reference with no context in history"
+    "description": "Ambiguous reference with no preceding history"
   },
   {
     "id": 17,
@@ -145,7 +145,7 @@
     "last_output_kind": "answer",
     "message": "tell me about the other one",
     "expected_intent": "paper_question",
-    "description": "Tricky: Context resolves 'the other one' to the second dataset, asking for details from paper"
+    "description": "History clearly contrasts two datasets; resolves referent to paper question"
   },
   {
     "id": 18,
@@ -250,7 +250,7 @@
     "last_output_kind": "none",
     "message": "how does beam search work in machine translation generally?",
     "expected_intent": "paper_question",
-    "description": "Inference and decoding question relevant to the paper"
+    "description": "NLP decoding question (paper_question)"
   },
   {
     "id": 30,
@@ -258,6 +258,86 @@
     "last_output_kind": "none",
     "message": "can you elaborate on that?",
     "expected_intent": "needs_clarification",
-    "description": "Tricky: Vague elaboration request with empty history"
+    "description": "Vague elaboration request with empty history"
+  },
+  {
+    "id": 31,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "what is the weather like in Tokyo right now?",
+    "expected_intent": "off_topic",
+    "description": "Weather inquiry unrelated to research papers"
+  },
+  {
+    "id": 32,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "hey how are you doing today?",
+    "expected_intent": "off_topic",
+    "description": "Casual greeting and chit-chat"
+  },
+  {
+    "id": 33,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "Can diffusion models be used for text-to-speech synthesis?",
+    "expected_intent": "paper_question",
+    "description": "ML/speech research question (paper_question even if not in Transformer paper)"
+  },
+  {
+    "id": 34,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "How does FlashAttention optimize GPU memory bandwidth?",
+    "expected_intent": "paper_question",
+    "description": "ML hardware/architecture research question (paper_question)"
+  },
+  {
+    "id": 35,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "Who won the 2022 FIFA World Cup?",
+    "expected_intent": "off_topic",
+    "description": "Sports trivia unrelated to research"
+  },
+  {
+    "id": 36,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "tell me more about it",
+    "expected_intent": "needs_clarification",
+    "description": "Vague pronoun reference with no context"
+  },
+  {
+    "id": 37,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "What is the loss function used in RoBERTa pretraining?",
+    "expected_intent": "paper_question",
+    "description": "NLP model question (paper_question)"
+  },
+  {
+    "id": 38,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "Good morning! Can you help me?",
+    "expected_intent": "off_topic",
+    "description": "Chit-chat greeting"
+  },
+  {
+    "id": 39,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "what is gradient clipping and why is it used?",
+    "expected_intent": "paper_question",
+    "description": "ML optimization question (paper_question)"
+  },
+  {
+    "id": 40,
+    "history": [],
+    "last_output_kind": "none",
+    "message": "recommend a good Italian restaurant in New York",
+    "expected_intent": "off_topic",
+    "description": "Dining recommendation unrelated to academic research"
   }
 ]

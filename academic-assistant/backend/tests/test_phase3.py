@@ -350,3 +350,69 @@ def test_cache_version_mismatch_is_miss(tmp_path, monkeypatch):
         json.dump({"_cache_version": 999, "data": {"key": "val"}}, f)
 
     assert cache.get("test_doc", "test_kind") is None
+
+
+def test_session_ask_llm_call_count_warm_notes(tmp_path, monkeypatch):
+    """Warm notes cache requires exactly 1 LLM call (router only)."""
+    monkeypatch.setattr("app.agents.cache.CACHE_BASE_DIR", tmp_path)
+    session = ChatSession(doc_id="test_doc")
+
+    # Warm cache for notes
+    fake_notes = {
+        "problem": {"text": "p", "sources": []},
+        "method": {"text": "m", "sources": []},
+        "dataset_and_setup": {"text": "d", "sources": []},
+        "key_results": {"text": "r", "sources": []},
+        "limitations": {"text": "l", "sources": []},
+        "key_terms": [],
+        "revision_questions": [],
+    }
+    cache.set("test_doc", "notes", fake_notes)
+
+    # Router returns notes
+    router_decision = RouterDecision(intent="notes", standalone_query="make notes", reason="user requested notes")
+    with patch("app.agents.graph.route", return_value=router_decision), \
+         patch("app.agents.graph.get_call_count", side_effect=[10, 11]):  # 1 call inside route_message
+        res = session.ask("make study notes")
+        assert res.intent == "notes"
+        assert res.llm_calls == 1
+
+
+def test_session_ask_llm_call_count_paper_question(tmp_path):
+    """Paper question without retry requires at least 2 LLM calls (router + QA)."""
+    session = ChatSession(doc_id="test_doc")
+    router_decision = RouterDecision(intent="paper_question", standalone_query="what is attention?", reason="asking about paper topic")
+    chunk = {"chunk_id": "c1", "text": "attention", "score": 0.8, "section": "1 Intro", "page_start": 1, "page_end": 1}
+    qa_result = {
+        "answer": "Attention connects words [1 Intro, p. 1]",
+        "sources": [{"section": "1 Intro", "page_start": 1, "page_end": 1}],
+        "unsupported_citations": [],
+    }
+
+    with patch("app.agents.graph.route", return_value=router_decision), \
+         patch("app.agents.graph.search", return_value=[chunk]), \
+         patch("app.agents.graph.answer_question", return_value=qa_result), \
+         patch("app.agents.graph.get_call_count", side_effect=[5, 7]):  # 2 calls: router + answer_question
+        res = session.ask("what is attention?")
+        assert res.intent == "paper_question"
+        assert res.llm_calls >= 2
+
+
+def test_summarize_document_strips_unsupported_citations(monkeypatch):
+    """summarize_document verifies citations and strips unsupported ones from the overall summary."""
+    chunks = [
+        {"chunk_id": "c1", "text": "Valid chunk content.", "section": "1 Introduction", "page_start": 1, "page_end": 1}
+    ]
+    raw_summary_with_bogus_cite = "This model is effective [Fake Section, p. 99] and well-tested [1 Introduction, p. 1]."
+
+    from app.agents.summarizer import summarize_document
+    with patch("app.agents.summarizer.get_all_chunks", return_value=chunks), \
+         patch("app.agents.summarizer.summarize_section", return_value="Section summary"), \
+         patch("app.agents.summarizer.generate", return_value=raw_summary_with_bogus_cite), \
+         patch("app.agents.summarizer.cache.get", return_value=None), \
+         patch("app.agents.summarizer.cache.set"):
+        summary = summarize_document("test_doc", force=True)
+        # Fake Section, p. 99 should be stripped
+        assert "[Fake Section, p. 99]" not in summary["overall"]
+        assert "[1 Introduction, p. 1]" in summary["overall"]
+

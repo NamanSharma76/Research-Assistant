@@ -91,13 +91,51 @@ python backend/scripts/ask.py bdfaa68d8984 "What is photosynthesis in plant cell
 ---
 
 ## 4. Running Tests
-Run the test suite from `backend`:
+Run the complete test suite across all phases from `backend`:
 ```bash
 cd backend
-..\venv\Scripts\pytest tests\test_rag.py -v
+..\venv\Scripts\pytest tests -v
 ```
-Tests cover:
-- Chunk metadata retention (`doc_id`, `filename`, `section`, `page_start`, `page_end`, `chunk_index`, `chunk_id`).
-- Idempotent re-ingestion without chunk duplication.
-- `get_section` filtered and strictly ordered by `chunk_index`.
-- `search` isolation respecting `doc_id` boundaries.
+
+---
+
+## 5. Phase 4: HTTP API & Web Server
+
+### Running the API Server
+Start the Uvicorn ASGI server with reload:
+```bash
+cd backend
+..\venv\Scripts\uvicorn app.api.main:app --reload --port 8000
+```
+
+- **Interactive API Documentation (Swagger)**: Visit `http://localhost:8000/docs`
+- **Alternative Documentation (ReDoc)**: Visit `http://localhost:8000/redoc`
+- **Health Check**: `GET http://localhost:8000/health`
+
+---
+
+## 6. Phase 4.5: Streamlit Web UI
+
+A full interactive frontend built in Streamlit communicating exclusively with the FastAPI backend over HTTP.
+
+### Running the Frontend
+```bash
+cd frontend
+..\venv\Scripts\streamlit run app.py
+```
+Open your browser at `http://localhost:8501`.
+
+### Key Features
+- **User Authentication**: Register and log in with JWT tokens.
+- **Document Management**: Upload scientific PDFs, monitor background ingestion progress in real-time, and manage papers.
+- **Multi-Turn Chat**: Ask questions grounded in paper excerpts with interactive citation chips and collapsible agent execution traces.
+- **Study Notes**: Review generated study notes with key terms, definitions, and revision questions.
+- **Slide Deck Outlines**: Configure presentation slide count (5–15 slides) and download presentation decks in Markdown or plain text.
+- **Executive Summaries**: High-level synthesis alongside per-section summaries.
+
+### Running Frontend Tests
+```bash
+..\venv\Scripts\pytest frontend/tests -v
+```
+
+
