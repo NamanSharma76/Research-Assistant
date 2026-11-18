@@ -31,6 +31,11 @@ def render_summary_view(token: str, doc_id: str):
         st.info("Click 'Load Summary' to view or generate an executive summary.")
         return
 
+    if not isinstance(summary_data, dict):
+        st.subheader("Executive Overview")
+        st.markdown(render_citations_to_html(str(summary_data)), unsafe_allow_html=True)
+        return
+
     overall_text = summary_data.get("overall", "")
     if overall_text:
         st.subheader("Executive Overview")

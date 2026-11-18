@@ -1,5 +1,6 @@
+"""Section and whole-document summarization agents."""
 import time
-from typing import Dict, List, Any
+from typing import Dict, Any, List
 from app.config import (
     GROQ_MODEL_MAIN,
     GROQ_MODEL_FAST,
@@ -16,80 +17,73 @@ from app.agents.prompts import (
     REDUCE_SUMMARY_PROMPT,
     DOCUMENT_OVERALL_SUMMARY_PROMPT,
 )
+from app.agents.cleaning import strip_meta_from_summary
 
-NON_CONTENT_SECTIONS = {"references", "acknowledgements", "unknown"}
+NON_CONTENT_SECTIONS = {
+    "references",
+    "bibliography",
+    "acknowledgments",
+    "acknowledgements",
+    "unknown",
+}
 
 
-def _format_chunk_with_header(chunk: dict) -> str:
-    sec = chunk.get("section", "Unknown")
+def _format_chunk_with_page(chunk: dict) -> str:
     p_start = chunk.get("page_start", 0)
     p_end = chunk.get("page_end", 0)
     p_str = f"p. {p_start}" if p_start == p_end else f"pp. {p_start}-{p_end}"
-    return f"[{sec}, {p_str}]\n{chunk.get('text', '')}"
+    return f"[{chunk.get('section', 'Unknown')}, {p_str}]\n{chunk.get('text', '')}"
 
 
 def summarize_section(doc_id: str, section_name: str) -> str:
-    """Summarize a single section of a paper.
-    If the text fits in MAX_PROMPT_TOKENS, one call is made.
-    Otherwise, a map-reduce pattern summarizes chunks in batches and then combines them.
-    Unsupported citations are verified and stripped.
+    """Summarizes a specific document section.
+    Uses direct single-prompt if token count <= MAX_PROMPT_TOKENS,
+    otherwise performs map-reduce chunk summarization.
     """
     chunks = get_section(doc_id, section_name)
     if not chunks:
-        return f"Section '{section_name}' not found or empty."
+        return f"Section '{section_name}' not found or has no content."
 
-    formatted_chunks = [_format_chunk_with_header(c) for c in chunks]
-    full_text = "\n\n".join(formatted_chunks)
+    # Format all section chunks with citation headers
+    formatted_chunks = [_format_chunk_with_page(c) for c in chunks]
+    combined_text = "\n\n".join(formatted_chunks)
 
-    prompt = SECTION_SUMMARY_PROMPT.format(section_name=section_name, text=full_text)
+    # Check token count
+    token_est = estimate_tokens(combined_text)
 
-    if estimate_tokens(prompt) <= MAX_PROMPT_TOKENS:
+    if token_est <= MAX_PROMPT_TOKENS:
+        # Single-prompt summarization
+        prompt = SECTION_SUMMARY_PROMPT.format(section_name=section_name, text=combined_text)
         raw_summary = generate(prompt, model=GROQ_MODEL_FAST)
         time.sleep(LLM_CALL_DELAY_SECONDS)
     else:
-        # Map-reduce approach
-        # Group chunks into batches that fit in MAX_PROMPT_TOKENS
-        batches: List[List[str]] = []
-        current_batch: List[str] = []
-        current_tokens = 0
-
-        for chunk_text in formatted_chunks:
-            chunk_tokens = estimate_tokens(chunk_text)
-            if current_batch and (current_tokens + chunk_tokens > MAX_PROMPT_TOKENS - 500):
-                batches.append(current_batch)
-                current_batch = [chunk_text]
-                current_tokens = chunk_tokens
-            else:
-                current_batch.append(chunk_text)
-                current_tokens += chunk_tokens
-        if current_batch:
-            batches.append(current_batch)
-
-        # Map phase
-        partial_summaries: List[str] = []
-        for batch in batches:
-            batch_text = "\n\n".join(batch)
-            map_prompt = MAP_SUMMARY_PROMPT.format(section_name=section_name, text=batch_text)
+        # Map-Reduce summarization
+        # Map phase: summarize each chunk individually
+        map_summaries = []
+        for fc in formatted_chunks:
+            map_prompt = MAP_SUMMARY_PROMPT.format(section_name=section_name, text=fc)
             part = generate(map_prompt, model=GROQ_MODEL_FAST)
-            partial_summaries.append(part)
             time.sleep(LLM_CALL_DELAY_SECONDS)
+            map_summaries.append(part.strip())
 
-        # Reduce phase
-        combined_partials = "\n\n".join(partial_summaries)
-        reduce_prompt = REDUCE_SUMMARY_PROMPT.format(section_name=section_name, text=combined_partials)
+        # Reduce phase: combine partial summaries
+        reduce_input = "\n\n".join(map_summaries)
+        reduce_prompt = REDUCE_SUMMARY_PROMPT.format(section_name=section_name, text=reduce_input)
         raw_summary = generate(reduce_prompt, model=GROQ_MODEL_FAST)
         time.sleep(LLM_CALL_DELAY_SECONDS)
 
-    # Citation verification & stripping
+    # Verify and clean citations against the actual chunks of this section
     verified = verify_citations(raw_summary, chunks)
     if verified["unsupported"]:
         clean_summary = strip_unsupported_citations(raw_summary, verified["unsupported"])
-        return clean_summary
-    return raw_summary
+    else:
+        clean_summary = raw_summary
+
+    return clean_summary.strip()
 
 
 def summarize_document(doc_id: str, force: bool = False) -> Dict[str, Any]:
-    """Summarize an entire document section by section (fast model) and overall synthesis (main model).
+    """Generates an executive summary and per-section breakdowns for a paper.
     Caches result to data/cache/<doc_id>/summary.json.
     """
     if not force:
@@ -146,5 +140,6 @@ def summarize_document(doc_id: str, force: bool = False) -> Dict[str, Any]:
         "sections": section_summaries,
     }
 
+    result = strip_meta_from_summary(result)
     cache.set(doc_id, "summary", result)
     return result

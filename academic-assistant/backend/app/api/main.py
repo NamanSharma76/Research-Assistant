@@ -5,7 +5,7 @@ import time
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from app.config import (
@@ -105,6 +105,12 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content={"detail": first_error},
     )
+
+
+# Root redirect to Streamlit UI
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="http://localhost:8501")
 
 
 # Health endpoint

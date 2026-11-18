@@ -39,6 +39,11 @@ def render_notes_view(token: str, doc_id: str):
         st.info("Click 'Load Notes' to view or generate structured revision notes.")
         return
 
+    if not isinstance(notes_data, dict):
+        st.error("Invalid notes format received.")
+        st.write(notes_data)
+        return
+
     # Render main note sections
     for field_key, field_label in KNOWN_SECTION_FIELDS.items():
         if field_key in notes_data:
@@ -54,33 +59,43 @@ def render_notes_view(token: str, doc_id: str):
                             st.markdown(render_citations_to_html(f"- {src}"), unsafe_allow_html=True)
                 elif isinstance(field_data, str):
                     st.markdown(render_citations_to_html(field_data), unsafe_allow_html=True)
+                else:
+                    st.write(field_data)
 
     # Key Terms
-    key_terms: List[Dict[str, Any]] = notes_data.get("key_terms", [])
-    if key_terms:
+    key_terms = notes_data.get("key_terms", [])
+    if key_terms and isinstance(key_terms, list):
         with st.expander(f"🔑 Key Terms ({len(key_terms)})", expanded=True):
             for t in key_terms:
-                term = t.get("term", "")
-                definition = t.get("definition", "")
-                sources = t.get("sources", [])
-                st.markdown(f"**{term}**")
-                st.markdown(render_citations_to_html(definition), unsafe_allow_html=True)
-                if sources:
-                    st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
+                if isinstance(t, dict):
+                    term = t.get("term", "")
+                    definition = t.get("definition", "")
+                    sources = t.get("sources", [])
+                    st.markdown(f"**{term}**")
+                    if definition:
+                        st.markdown(render_citations_to_html(definition), unsafe_allow_html=True)
+                    if sources:
+                        st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
+                else:
+                    st.markdown(render_citations_to_html(f"- {str(t)}"), unsafe_allow_html=True)
                 st.markdown("---")
 
     # Revision Questions
-    questions: List[Dict[str, Any]] = notes_data.get("revision_questions", [])
-    if questions:
+    questions = notes_data.get("revision_questions", [])
+    if questions and isinstance(questions, list):
         with st.expander(f"❓ Revision Questions ({len(questions)})", expanded=True):
             for idx, q in enumerate(questions, start=1):
-                question_text = q.get("question", "")
-                expected = q.get("expected_answer", "")
-                sources = q.get("sources", [])
-                st.markdown(f"**Q{idx}: {question_text}**")
-                st.markdown(render_citations_to_html(f"*Answer:* {expected}"), unsafe_allow_html=True)
-                if sources:
-                    st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
+                if isinstance(q, dict):
+                    question_text = q.get("question", "")
+                    expected = q.get("expected_answer", "")
+                    sources = q.get("sources", [])
+                    st.markdown(f"**Q{idx}: {question_text}**")
+                    if expected:
+                        st.markdown(render_citations_to_html(f"*Answer:* {expected}"), unsafe_allow_html=True)
+                    if sources:
+                        st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
+                else:
+                    st.markdown(f"**Q{idx}:** {render_citations_to_html(str(q))}", unsafe_allow_html=True)
                 st.markdown("---")
 
     # Render any unrecognized extra keys safely without dropping
