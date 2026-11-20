@@ -1,0 +1,35 @@
+# ========================================================
+# Dockerfile for Academic Research Assistant Streamlit UI
+# ========================================================
+FROM python:3.12-slim
+
+# Prevent Python from writing .pyc files and enable unbuffered output
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Create non-root system user and group
+RUN groupadd -r appuser && useradd -r -g appuser -d /app -s /sbin/nologin appuser
+
+# Install frontend dependencies
+COPY academic-assistant/frontend/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copy frontend application source code
+COPY academic-assistant/frontend /app/
+
+# Ensure directory permissions for non-root user (including Streamlit config directory)
+RUN mkdir -p /app/.streamlit && chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+EXPOSE 8501
+
+# Built-in Python HTTP healthcheck targeting Streamlit core health endpoint
+HEALTHCHECK --interval=15s --timeout=5s --retries=3 --start-period=10s \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health')" || exit 1
+
+# Start Streamlit binding to 0.0.0.0
+CMD ["streamlit", "run", "app.py", "--server.address", "0.0.0.0", "--server.port", "8501", "--server.headless", "true"]

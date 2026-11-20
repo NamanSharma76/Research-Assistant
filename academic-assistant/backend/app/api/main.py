@@ -42,10 +42,10 @@ def recover_processing_documents():
 
 
 def validate_environment(is_test: bool = False):
-    """Enforces JWT_SECRET presence and minimum length outside test environments."""
+    """Enforces JWT_SECRET presence outside test environments, and GROQ_API_KEY in Docker."""
     if is_test or os.getenv("TESTING", "").lower() in ("true", "1") or "pytest" in sys.modules:
         return
-    # Check current runtime config JWT_SECRET
+    # Check current runtime config JWT_SECRET (always enforced outside test environments)
     from app import config
     secret = config.JWT_SECRET
     if not secret or len(secret) < 32:
@@ -53,6 +53,19 @@ def validate_environment(is_test: bool = False):
             "JWT_SECRET environment variable is missing or shorter than 32 characters. "
             "Set a secure JWT_SECRET (32+ chars) in your .env before starting the server."
         )
+    # Enforce GROQ_API_KEY startup validation specifically in Docker environments
+    is_docker = (
+        os.getenv("RUNNING_IN_DOCKER", "").lower() in ("true", "1")
+        or os.getenv("DOCKER_CONTAINER", "").lower() in ("true", "1")
+        or os.path.exists("/.dockerenv")
+    )
+    if is_docker:
+        groq_key = config.GROQ_API_KEY
+        if not groq_key or not groq_key.strip():
+            raise RuntimeError(
+                "GROQ_API_KEY environment variable is missing. "
+                "Set a valid GROQ_API_KEY in your .env before starting the server."
+            )
 
 
 @asynccontextmanager

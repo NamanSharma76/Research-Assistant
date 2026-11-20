@@ -1,0 +1,46 @@
+# ========================================================
+# Dockerfile for Academic Research Assistant Backend
+# ========================================================
+FROM python:3.12-slim
+
+# Prevent Python from writing .pyc files and enable unbuffered output
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    HF_HOME=/app/.cache/huggingface \
+    RUNNING_IN_DOCKER=true \
+    PORT=8000
+
+WORKDIR /app
+
+# Create non-root system user and group
+RUN groupadd -r appuser && useradd -r -g appuser -d /app -s /sbin/nologin appuser
+
+# Pre-install CPU-only PyTorch wheel (~180MB vs 5GB+ CUDA bundle)
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+# Install backend dependencies
+COPY academic-assistant/backend/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+
+# Pre-download the sentence-transformers embedding model during image build
+# This eliminates first-request latency and removes internet dependency at runtime
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+
+# Copy only the backend application code
+COPY academic-assistant/backend/app /app/app
+
+# Ensure persistent directories and HuggingFace cache exist with correct permissions
+RUN mkdir -p /app/data/uploads /app/data/chroma /app/data/cache /app/.cache && \
+    chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+EXPOSE 8000
+
+# Built-in Python HTTP healthcheck (no curl required in slim image)
+HEALTHCHECK --interval=15s --timeout=5s --retries=3 --start-period=20s \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')" || exit 1
+
+# Start Uvicorn ASGI server
+CMD ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -2,27 +2,31 @@ services:
   backend:
     build:
       context: .
-      dockerfile: academic-assistant/Dockerfile.backend
+      dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}
-      - JWT_SECRET=${JWT_SECRET:-change_me_to_a_long_random_string_32chars_min}
-      - CORS_ORIGINS=http://localhost:8501,https://*.streamlit.app
-      - DATABASE_URL=sqlite:///data/app.db
+      - JWT_SECRET=${JWT_SECRET}
+      - RUNNING_IN_DOCKER=true
+      - CORS_ORIGINS=http://localhost:8501,http://127.0.0.1:8501
+      - DATABASE_URL=sqlite:////app/data/app.db
+      - DATA_DIR=/app/data
+      - CHROMA_PERSIST_DIRECTORY=/app/data/chroma
     volumes:
-      - assistant_data:/app/backend/data
+      - assistant_data:/app/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
       interval: 15s
       timeout: 5s
       retries: 3
+      start_period: 20s
 
   frontend:
     build:
       context: .
-      dockerfile: academic-assistant/Dockerfile.frontend
+      dockerfile: Dockerfile.frontend
     ports:
       - "8501:8501"
     environment:

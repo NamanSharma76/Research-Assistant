@@ -15,15 +15,30 @@ venv/
 **/.streamlit/
 
 # Data & vector databases & caches
+data/app.db
+data/uploads/
+data/chroma/
+data/cache/
+**/data/app.db
 **/data/chroma/
 **/data/cache/
+**/data/uploads/
 **/data/uploads/*/
 **/data/*.db
 **/data/*.db-journal
 **/data/*.json
+
+# Logs
+*.log
+docker-build.log
 
 # Testing & build artifacts
 .pytest_cache/
 **/.pytest_cache/
 .coverage
 htmlcov/
+
+# Local IDE configuration
+.vscode/
+**/.vscode/
+.idea/

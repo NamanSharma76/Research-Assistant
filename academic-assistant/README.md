@@ -51,9 +51,9 @@ pip install -r requirements.txt
 ```
 
 ### Step 3: Configure Environment Variables
-Copy `.env.example` to `.env`:
+Copy the authoritative `.env.example` from the repository root:
 ```bash
-copy .env.example .env
+copy ..\.env.example .env
 ```
 Edit `.env` and add your `GROQ_API_KEY`:
 ```ini

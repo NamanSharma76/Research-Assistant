@@ -4,11 +4,12 @@ from dotenv import load_dotenv
 
 # Base directory paths
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / "data"
-UPLOADS_DIR = DATA_DIR / "uploads"
-CHROMA_DIR = DATA_DIR / "chroma"
+DATA_DIR = Path(os.getenv("DATA_DIR", BASE_DIR / "data")).resolve()
+UPLOADS_DIR = Path(os.getenv("UPLOADS_DIR", DATA_DIR / "uploads")).resolve()
+CHROMA_DIR = Path(os.getenv("CHROMA_DIR", DATA_DIR / "chroma")).resolve()
 
 # Load environment variables
+load_dotenv(BASE_DIR.parent.parent / ".env")
 load_dotenv(BASE_DIR.parent / ".env")
 load_dotenv(BASE_DIR / ".env")
 

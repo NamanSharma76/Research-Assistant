@@ -34,7 +34,7 @@ Choose one of the container hosting options below:
 1. Sign up / Log in to [Railway.app](https://railway.app).
 2. Click **New Project** ➔ **Deploy from GitHub repo** ➔ Select `NamanSharma76/Research-Assistant`.
 3. In **Settings**:
-   - **Dockerfile Path**: Set to `academic-assistant/Dockerfile.backend`.
+   - **Dockerfile Path**: Set to `Dockerfile.backend`.
 4. In **Variables**:
    - `GROQ_API_KEY`: Your Groq API key (`gsk_...`).
    - `JWT_SECRET`: A secure random string (at least 32 characters).
@@ -52,7 +52,7 @@ Choose one of the container hosting options below:
 2. Click **New +** ➔ **Web Service** ➔ Connect your GitHub repository.
 3. Configure the service:
    - **Runtime**: Docker
-   - **Dockerfile Path**: `./academic-assistant/Dockerfile.backend`
+   - **Dockerfile Path**: `./Dockerfile.backend`
    - **Instance Type**: Starter (requires persistent disk).
 4. Under **Disks**:
    - Add a disk mounted at `/app/backend/data` (size: 5 GB).
@@ -69,7 +69,7 @@ If you prefer running on your own VM using Docker Compose:
 ```bash
 git clone https://github.com/NamanSharma76/Research-Assistant.git
 cd Research-Assistant
-cp academic-assistant/.env.example .env
+cp .env.example .env
 # Edit .env and fill in GROQ_API_KEY and a secure JWT_SECRET
 docker compose up -d backend
 ```
