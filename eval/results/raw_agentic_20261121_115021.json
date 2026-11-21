@@ -1,0 +1,2060 @@
+[
+  {
+    "question_id": "A1",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "What BLEU score did the big Transformer get on English-to-German?",
+    "expected_answer": "The Transformer (big) achieved a BLEU score of 28.4 on the WMT 2014 English-to-German translation task [6 Results, p. 8].",
+    "must_contain": [
+      [
+        "28.4"
+      ]
+    ],
+    "covered": true,
+    "answer": "The big Transformer achieved a BLEU score of **28.4** on the WMT 2014 English‑to‑German translation task【6 Results, pp. 8-9】.",
+    "raw_answer": "The big Transformer achieved a BLEU score of **28.4** on the WMT 2014 English‑to‑German translation task【6 Results, pp. 8-9】.",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 8.17,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What BLEU score did the big Transformer achieve on the English-to-German translation task?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【6 Results, pp. 8-9】",
+          "inner": "6 Results, pp. 8-9",
+          "section": "6 Results",
+          "page_start": 8,
+          "page_end": 9,
+          "span": [
+            104,
+            124
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【6 Results, pp. 8-9】",
+          "inner": "6 Results, pp. 8-9",
+          "section": "6 Results",
+          "page_start": 8,
+          "page_end": 9,
+          "span": [
+            104,
+            124
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "A2",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "What BLEU score did the big model get on English-to-French?",
+    "expected_answer": "The paper reports two numbers: Section 6.1 text states that the big model achieves 41.0 BLEU, while Table 2 lists 41.8 BLEU for the big model on English-to-French [6 Results, p. 8].",
+    "must_contain": [
+      [
+        "41.0"
+      ],
+      [
+        "41.8"
+      ]
+    ],
+    "covered": true,
+    "answer": "The big Transformer model achieved a BLEU score of **41.0** on the WMT 2014 English‑to‑French translation task【6 Results, pp. 8‑9】.",
+    "raw_answer": "The big Transformer model achieved a BLEU score of **41.0** on the WMT 2014 English‑to‑French translation task【6 Results, pp. 8‑9】.",
+    "refused": false,
+    "score": 0.5,
+    "is_correct": false,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [
+      1
+    ],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 4.34,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What BLEU score did the big model achieve on the English-to-French translation task?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【6 Results, pp. 8-9】",
+          "inner": "6 Results, pp. 8-9",
+          "section": "6 Results",
+          "page_start": 8,
+          "page_end": 9,
+          "span": [
+            110,
+            130
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【6 Results, pp. 8-9】",
+          "inner": "6 Results, pp. 8-9",
+          "section": "6 Results",
+          "page_start": 8,
+          "page_end": 9,
+          "span": [
+            110,
+            130
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "A3",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "What is d_model in the base Transformer?",
+    "expected_answer": "In the base Transformer model, the embedding and sub-layer output dimension d_model is 512 [3 Model Architecture, p. 3; Table 3, p. 9].",
+    "must_contain": [
+      [
+        "512"
+      ]
+    ],
+    "covered": true,
+    "answer": "In the base Transformer, **\\(d_{\\text{model}}\\)** denotes the dimensionality of the vectors produced by every sub‑layer and by the embedding layers – i.e., the size of the continuous representations throughout the model. For the base configuration this dimension is set to 512 . (unverified citations removed)",
+    "raw_answer": "In the base Transformer, **\\(d_{\\text{model}}\\)** denotes the dimensionality of the vectors produced by every sub‑layer and by the embedding layers – i.e., the size of the continuous representations throughout the model. For the base configuration this dimension is set to 512 [Model Architecture, pp. 2‑4].",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 9.67,
+    "num_cited": 1,
+    "num_supported": 0,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What does the term d_model represent in the base Transformer model?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[Model Architecture, pp. 2-4]",
+          "inner": "Model Architecture, pp. 2-4",
+          "section": "Model Architecture",
+          "page_start": 2,
+          "page_end": 4,
+          "span": [
+            277,
+            306
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "A4",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "How many attention heads are used?",
+    "expected_answer": "The Multi-Head Attention mechanism in the base Transformer employs h = 8 parallel attention heads [3 Model Architecture, p. 4; Table 3, p. 9].",
+    "must_contain": [
+      [
+        "8",
+        "eight"
+      ]
+    ],
+    "covered": true,
+    "answer": "The model uses eight parallel attention heads ( h = 8 )【3 Model Architecture, pp. 4‑5】.",
+    "raw_answer": "The model uses eight parallel attention heads ( h = 8 )【3 Model Architecture, pp. 4‑5】.",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 33.87,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "How many attention heads are used in the model?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【3 Model Architecture, pp. 4-5】",
+          "inner": "3 Model Architecture, pp. 4-5",
+          "section": "3 Model Architecture",
+          "page_start": 4,
+          "page_end": 5,
+          "span": [
+            55,
+            86
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【3 Model Architecture, pp. 4-5】",
+          "inner": "3 Model Architecture, pp. 4-5",
+          "section": "3 Model Architecture",
+          "page_start": 4,
+          "page_end": 5,
+          "span": [
+            55,
+            86
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "A5",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "What optimizer and warmup steps are used for training?",
+    "expected_answer": "The models were trained using the Adam optimizer (beta1 = 0.9, beta2 = 0.98, epsilon = 10^-9) with 4000 warmup steps [5 Training, p. 7].",
+    "must_contain": [
+      [
+        "Adam"
+      ],
+      [
+        "4000"
+      ]
+    ],
+    "covered": true,
+    "answer": "The models were trained with the **Adam optimizer** (β₁ = 0.9, β₂ = 0.98, ε = 10⁻⁹) and a linear warm‑up of **4000 steps** before the learning‑rate schedule switched to the inverse‑square‑root decay [5 Training, pp. 7‑8].",
+    "raw_answer": "The models were trained with the **Adam optimizer** (β₁ = 0.9, β₂ = 0.98, ε = 10⁻⁹) and a linear warm‑up of **4000 steps** before the learning‑rate schedule switched to the inverse‑square‑root decay [5 Training, pp. 7‑8].",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0,
+      1
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 36.15,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What optimizer and warmup steps are used for training?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[5 Training, pp. 7-8]",
+          "inner": "5 Training, pp. 7-8",
+          "section": "5 Training",
+          "page_start": 7,
+          "page_end": 8,
+          "span": [
+            199,
+            220
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[5 Training, pp. 7-8]",
+          "inner": "5 Training, pp. 7-8",
+          "section": "5 Training",
+          "page_start": 7,
+          "page_end": 8,
+          "span": [
+            199,
+            220
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "A6",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "How many GPUs were used for training and which type?",
+    "expected_answer": "The models were trained on one machine equipped with 8 NVIDIA P100 GPUs [5 Training, p. 7].",
+    "must_contain": [
+      [
+        "8",
+        "eight"
+      ],
+      [
+        "P100"
+      ]
+    ],
+    "covered": true,
+    "answer": "The models were trained on a single machine equipped with **8 NVIDIA P100 GPUs**【5 Training, pp. 7‑8】.",
+    "raw_answer": "The models were trained on a single machine equipped with **8 NVIDIA P100 GPUs**【5 Training, pp. 7‑8】.",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0,
+      1
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 16.5,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "How many GPUs were used for training and which type?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【5 Training, pp. 7-8】",
+          "inner": "5 Training, pp. 7-8",
+          "section": "5 Training",
+          "page_start": 7,
+          "page_end": 8,
+          "span": [
+            80,
+            101
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【5 Training, pp. 7-8】",
+          "inner": "5 Training, pp. 7-8",
+          "section": "5 Training",
+          "page_start": 7,
+          "page_end": 8,
+          "span": [
+            80,
+            101
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "A7",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "How many layers does the encoder have?",
+    "expected_answer": "The Transformer encoder consists of a stack of N = 6 identical layers [3 Model Architecture, p. 2-3].",
+    "must_contain": [
+      [
+        "6",
+        "six"
+      ]
+    ],
+    "covered": true,
+    "answer": "The encoder is built from a stack of **6 identical layers** [3 Model Architecture, pp. 2‑4].",
+    "raw_answer": "The encoder is built from a stack of **6 identical layers** [3 Model Architecture, pp. 2‑4].",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 29.04,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "How many layers does the encoder have?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[3 Model Architecture, pp. 2-4]",
+          "inner": "3 Model Architecture, pp. 2-4",
+          "section": "3 Model Architecture",
+          "page_start": 2,
+          "page_end": 4,
+          "span": [
+            60,
+            91
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[3 Model Architecture, pp. 2-4]",
+          "inner": "3 Model Architecture, pp. 2-4",
+          "section": "3 Model Architecture",
+          "page_start": 2,
+          "page_end": 4,
+          "span": [
+            60,
+            91
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "A8",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "What accuracy does BERT get on GLUE?",
+    "expected_answer": "The paper does not appear to cover this. BERT and the GLUE benchmark were introduced in later research and are not discussed in this paper.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 51.24,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "BERT accuracy GLUE benchmark performance evaluation results General Language Understanding Evaluation (GLUE) metric score precision recall F1 score state‑of‑the‑art performance",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "A9",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "How many parameters does GPT-3 have?",
+    "expected_answer": "The paper does not appear to cover this. GPT-3 is not discussed or evaluated in this paper.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 3,
+    "seconds": 35.75,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "GPT-3 parameter count, number of parameters, model size, large language model scaling, transformer-based language model parameters, OpenAI GPT-3 architecture, parameter count analysis, neural network scale, deep learning model capacity",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "A10",
+    "paper_key": "paper_a",
+    "doc_id": "bdfaa68d8984",
+    "question": "What is the top-1 accuracy on ImageNet?",
+    "expected_answer": "The paper does not appear to cover this. The paper evaluates machine translation and constituency parsing, not ImageNet classification.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 45.33,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "top-1 accuracy ImageNet reported results classification benchmark performance metric deep learning paper evaluation state-of-the-art",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "B1",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "What accuracy does LeafScan get on the test set?",
+    "expected_answer": "LeafScan reached 97.8% test accuracy on the PlantLeaf-38 test set [Abstract, p. 1; 5 Results, p. 2, Table 1].",
+    "must_contain": [
+      [
+        "97.8"
+      ]
+    ],
+    "covered": true,
+    "answer": "LeafScan achieves **97.8 % accuracy** on the test set [5 Results, pp. 2-3] [7 Conclusion, p. 3].",
+    "raw_answer": "LeafScan achieves **97.8 % accuracy** on the test set [5 Results, pp. 2-3] [7 Conclusion, p. 3].",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 16.91,
+    "num_cited": 2,
+    "num_supported": 2,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What accuracy does LeafScan achieve on the test set?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            54,
+            74
+          ]
+        },
+        {
+          "raw": "[7 Conclusion, p. 3]",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            75,
+            95
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            54,
+            74
+          ]
+        },
+        {
+          "raw": "[7 Conclusion, p. 3]",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            75,
+            95
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "B2",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "What learning rate and batch size were used?",
+    "expected_answer": "LeafScan was trained with an initial learning rate of 1e-3 (cosine decay down to 1e-5) and a batch size of 64 [4 Experimental Setup, p. 2].",
+    "must_contain": [
+      [
+        "1e-3",
+        "0.001",
+        "10^-3"
+      ],
+      [
+        "64"
+      ]
+    ],
+    "covered": true,
+    "answer": "The experiments were conducted with an initial learning rate of 1 × 10⁻³ (using AdamW) and a batch size of 64 [4 Experimental Setup, p. 2].",
+    "raw_answer": "The experiments were conducted with an initial learning rate of 1 × 10⁻³ (using AdamW) and a batch size of 64 [4 Experimental Setup, p. 2].",
+    "refused": false,
+    "score": 0.5,
+    "is_correct": false,
+    "matched_groups": [
+      1
+    ],
+    "missing_groups": [
+      0
+    ],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 20.7,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What learning rate and batch size were used in the experiments?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[4 Experimental Setup, p. 2]",
+          "inner": "4 Experimental Setup, p. 2",
+          "section": "4 Experimental Setup",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            110,
+            138
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[4 Experimental Setup, p. 2]",
+          "inner": "4 Experimental Setup, p. 2",
+          "section": "4 Experimental Setup",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            110,
+            138
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "B3",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "How many images are in the dataset and how are they split?",
+    "expected_answer": "PlantLeaf-38 contains 54,000 leaf images split 70/15/15 into 37,800 training, 8,100 validation, and 8,100 test images [4 Experimental Setup, p. 2].",
+    "must_contain": [
+      [
+        "54,000",
+        "54000",
+        "54 000"
+      ],
+      [
+        "70"
+      ]
+    ],
+    "covered": true,
+    "answer": "The PlantLeaf‑38 dataset comprises **54 000 leaf images**. The authors split these images **70 % / 15 % / 15 %**, yielding **37 800 training**, **8 100 validation**, and **8 100 test** images (stratified so each class appears in all three splits)【4 Experimental Setup, p. 2】. Additionally, a separate set of **600 field photographs** was collected for testing only and was not included in the training splits【4 Experimental Setup, p. 2】.",
+    "raw_answer": "The PlantLeaf‑38 dataset comprises **54 000 leaf images**. The authors split these images **70 % / 15 % / 15 %**, yielding **37 800 training**, **8 100 validation**, and **8 100 test** images (stratified so each class appears in all three splits)【4 Experimental Setup, p. 2】. Additionally, a separate set of **600 field photographs** was collected for testing only and was not included in the training splits【4 Experimental Setup, p. 2】.",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0,
+      1
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 17.38,
+    "num_cited": 2,
+    "num_supported": 2,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "How many images are in the dataset and how are they split?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【4 Experimental Setup, p. 2】",
+          "inner": "4 Experimental Setup, p. 2",
+          "section": "4 Experimental Setup",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            246,
+            274
+          ]
+        },
+        {
+          "raw": "【4 Experimental Setup, p. 2】",
+          "inner": "4 Experimental Setup, p. 2",
+          "section": "4 Experimental Setup",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            408,
+            436
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【4 Experimental Setup, p. 2】",
+          "inner": "4 Experimental Setup, p. 2",
+          "section": "4 Experimental Setup",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            246,
+            274
+          ]
+        },
+        {
+          "raw": "【4 Experimental Setup, p. 2】",
+          "inner": "4 Experimental Setup, p. 2",
+          "section": "4 Experimental Setup",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            408,
+            436
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "B4",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "What accuracy does LeafScan get on field photographs?",
+    "expected_answer": "On real field photographs, LeafScan achieved an accuracy of 81.3% [Abstract, p. 1; 5 Results, p. 3].",
+    "must_contain": [
+      [
+        "81.3"
+      ]
+    ],
+    "covered": true,
+    "answer": "LeafScan attains 81.3 % accuracy on the 600 field photographs [5 Results, pp. 2-3] (and this drop is noted in the abstract as well) [4 Abstract, p. 1].",
+    "raw_answer": "LeafScan attains 81.3 % accuracy on the 600 field photographs [5 Results, pp. 2-3] (and this drop is noted in the abstract as well) [4 Abstract, p. 1].",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 19.94,
+    "num_cited": 2,
+    "num_supported": 2,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What accuracy does LeafScan achieve on field photographs?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            62,
+            82
+          ]
+        },
+        {
+          "raw": "[4 Abstract, p. 1]",
+          "inner": "4 Abstract, p. 1",
+          "section": "4 Abstract",
+          "page_start": 1,
+          "page_end": 1,
+          "span": [
+            132,
+            150
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            62,
+            82
+          ]
+        },
+        {
+          "raw": "[4 Abstract, p. 1]",
+          "inner": "4 Abstract, p. 1",
+          "section": "4 Abstract",
+          "page_start": 1,
+          "page_end": 1,
+          "span": [
+            132,
+            150
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "B5",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "How many parameters does LeafScan have?",
+    "expected_answer": "LeafScan has 1.9 million parameters [Abstract, p. 1; 3 Method, p. 1].",
+    "must_contain": [
+      [
+        "1.9"
+      ]
+    ],
+    "covered": true,
+    "answer": "LeafScan contains 1.9 million parameters [7 Conclusion, p. 3] (also noted in the method description as “The full network has 1.9 million parameters” [3 Method, pp. 1-2]).",
+    "raw_answer": "LeafScan contains 1.9 million parameters [7 Conclusion, p. 3] (also noted in the method description as “The full network has 1.9 million parameters” [3 Method, pp. 1-2]).",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 18.96,
+    "num_cited": 2,
+    "num_supported": 2,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "How many parameters does the LeafScan model have?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[7 Conclusion, p. 3]",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            41,
+            61
+          ]
+        },
+        {
+          "raw": "[3 Method, pp. 1-2]",
+          "inner": "3 Method, pp. 1-2",
+          "section": "3 Method",
+          "page_start": 1,
+          "page_end": 2,
+          "span": [
+            149,
+            168
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[7 Conclusion, p. 3]",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            41,
+            61
+          ]
+        },
+        {
+          "raw": "[3 Method, pp. 1-2]",
+          "inner": "3 Method, pp. 1-2",
+          "section": "3 Method",
+          "page_start": 1,
+          "page_end": 2,
+          "span": [
+            149,
+            168
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "B6",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "Which baseline models were compared?",
+    "expected_answer": "The baseline models compared were MobileNetV2-1.0, EfficientNet-B0, and ResNet-18 [5 Results, p. 2, Table 1].",
+    "must_contain": [
+      [
+        "MobileNetV2"
+      ],
+      [
+        "EfficientNet"
+      ],
+      [
+        "ResNet"
+      ]
+    ],
+    "covered": true,
+    "answer": "The paper compares LeafScan against the following baseline models: MobileNetV2, EfficientNet‑B0, and ResNet‑50【5 Results, pp. 2-3】.",
+    "raw_answer": "The paper compares LeafScan against the following baseline models: MobileNetV2, EfficientNet‑B0, and ResNet‑50【5 Results, pp. 2-3】.",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0,
+      1,
+      2
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 13.09,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "Which baseline models were compared in the paper?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【5 Results, pp. 2-3】",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            110,
+            130
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【5 Results, pp. 2-3】",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            110,
+            130
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "B7",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "What happens to accuracy when CutMix is removed?",
+    "expected_answer": "In the ablation study, removing CutMix reduced test accuracy from 97.8% down to 97.1% [5 Results, p. 3, Table 2].",
+    "must_contain": [
+      [
+        "97.1"
+      ]
+    ],
+    "covered": true,
+    "answer": "When CutMix is omitted, the model’s accuracy drops to 97.1 %, a decrease of about 0.7 percentage points compared with the full LeafScan system [5 Results, pp. 2-3].",
+    "raw_answer": "When CutMix is omitted, the model’s accuracy drops to 97.1 %, a decrease of about 0.7 percentage points compared with the full LeafScan system [5 Results, pp. 2-3].",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 16.03,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What is the effect on accuracy when CutMix is removed?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            143,
+            163
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            143,
+            163
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "B8",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "What accuracy does BERT get on GLUE?",
+    "expected_answer": "The paper does not appear to cover this. BERT and GLUE are natural language processing benchmarks not evaluated in this computer vision paper.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 12.02,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_refuse",
+      "update_memory"
+    ],
+    "standalone_query": "BERT performance accuracy GLUE benchmark evaluation metric \"General Language Understanding Evaluation\" GLUE dataset results precision score NLP model benchmarking natural language understanding tasks\u0000",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "B9",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "What is the BLEU score of LeafScan?",
+    "expected_answer": "The paper does not appear to cover this. BLEU score is a machine translation evaluation metric and is not applicable to image classification.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 25.99,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "LeafScan BLEU metric Bilingual Evaluation Understudy score evaluation performance machine translation assessment results",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "B10",
+    "paper_key": "paper_b",
+    "doc_id": "b4379972df87",
+    "question": "How does LeafScan perform on satellite images?",
+    "expected_answer": "The paper does not appear to cover this. LeafScan was evaluated only on smartphone RGB leaf photographs, not satellite images.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 31.0,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "LeafScan performance evaluation satellite imagery remote sensing algorithm accuracy precision recall F1-score validation benchmark comparative study multispectral high‑resolution vegetation index leaf area index assessment efficacy effectiveness",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "C1",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "What MAPE does GridTCN get?",
+    "expected_answer": "The paper reports two numbers: Section 5.1 main text states that GridTCN reaches a MAPE of 4.1%, while Table 2 (and Abstract/Conclusion) lists 4.3% [Abstract, p. 1; 5 Results, p. 2, Table 2; 7 Conclusion, p. 3].",
+    "must_contain": [
+      [
+        "4.1"
+      ],
+      [
+        "4.3"
+      ]
+    ],
+    "covered": true,
+    "answer": "GridTCN achieves a mean absolute percentage error (MAPE) of about **4.3 %** 【5 Results, pp. 2-3】. This value is also reported in the abstract and conclusion of the paper【Abstract, p. 1】【7 Conclusion, p. 3】. (The text also notes a 4.1 % MAPE in the narrative, but the table and summary results list 4.3 %.)",
+    "raw_answer": "GridTCN achieves a mean absolute percentage error (MAPE) of about **4.3 %** 【5 Results, pp. 2-3】. This value is also reported in the abstract and conclusion of the paper【Abstract, p. 1】【7 Conclusion, p. 3】. (The text also notes a 4.1 % MAPE in the narrative, but the table and summary results list 4.3 %.)",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0,
+      1
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 18.21,
+    "num_cited": 3,
+    "num_supported": 3,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What MAPE does GridTCN achieve?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【5 Results, pp. 2-3】",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            76,
+            96
+          ]
+        },
+        {
+          "raw": "【Abstract, p. 1】",
+          "inner": "Abstract, p. 1",
+          "section": "Abstract",
+          "page_start": 1,
+          "page_end": 1,
+          "span": [
+            169,
+            185
+          ]
+        },
+        {
+          "raw": "【7 Conclusion, p. 3】",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            185,
+            205
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【5 Results, pp. 2-3】",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            76,
+            96
+          ]
+        },
+        {
+          "raw": "【Abstract, p. 1】",
+          "inner": "Abstract, p. 1",
+          "section": "Abstract",
+          "page_start": 1,
+          "page_end": 1,
+          "span": [
+            169,
+            185
+          ]
+        },
+        {
+          "raw": "【7 Conclusion, p. 3】",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            185,
+            205
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "C2",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "How many parameters does GridTCN have?",
+    "expected_answer": "GridTCN has 0.8 million parameters [Abstract, p. 1; 5 Results, p. 2, Table 2; 7 Conclusion, p. 3].",
+    "must_contain": [
+      [
+        "0.8"
+      ]
+    ],
+    "covered": true,
+    "answer": "GridTCN contains 0.8 million parameters【7 Conclusion, p. 3】【Abstract, p. 1】.",
+    "raw_answer": "GridTCN contains 0.8 million parameters【7 Conclusion, p. 3】【Abstract, p. 1】.",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 18.1,
+    "num_cited": 2,
+    "num_supported": 2,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "How many parameters does GridTCN have?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【7 Conclusion, p. 3】",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            39,
+            59
+          ]
+        },
+        {
+          "raw": "【Abstract, p. 1】",
+          "inner": "Abstract, p. 1",
+          "section": "Abstract",
+          "page_start": 1,
+          "page_end": 1,
+          "span": [
+            59,
+            75
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【7 Conclusion, p. 3】",
+          "inner": "7 Conclusion, p. 3",
+          "section": "7 Conclusion",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            39,
+            59
+          ]
+        },
+        {
+          "raw": "【Abstract, p. 1】",
+          "inner": "Abstract, p. 1",
+          "section": "Abstract",
+          "page_start": 1,
+          "page_end": 1,
+          "span": [
+            59,
+            75
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "C3",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "What optimiser, learning rate and batch size were used?",
+    "expected_answer": "GridTCN was trained with the Adam optimizer using a learning rate of 2e-3 and a batch size of 128 [3 Our Approach, p. 2].",
+    "must_contain": [
+      [
+        "Adam"
+      ],
+      [
+        "2e-3",
+        "0.002"
+      ],
+      [
+        "128"
+      ]
+    ],
+    "covered": true,
+    "answer": "The model was trained with the **Adam optimiser** using a **learning rate of 2 × 10⁻³** and a **batch (mini‑batch) size of 128**. Training was limited to **at most 40 epochs**, with **early stopping** after **5 epochs** without improvement on the validation set. All experiments were run on an **8‑core CPU** (no GPU) and the Huber loss was used as the training objective【3 Our Approach, pp. 1-2】.",
+    "raw_answer": "The model was trained with the **Adam optimiser** using a **learning rate of 2 × 10⁻³** and a **batch (mini‑batch) size of 128**. Training was limited to **at most 40 epochs**, with **early stopping** after **5 epochs** without improvement on the validation set. All experiments were run on an **8‑core CPU** (no GPU) and the Huber loss was used as the training objective【3 Our Approach, pp. 1-2】.",
+    "refused": false,
+    "score": 0.6666666666666666,
+    "is_correct": false,
+    "matched_groups": [
+      0,
+      2
+    ],
+    "missing_groups": [
+      1
+    ],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 28.86,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "optimizer algorithm learning rate schedule batch size mini‑batch size training hyperparameters model training configuration experimental setup deep learning neural network paper methodology",
+    "pre_citations": [
+      [
+        {
+          "raw": "【3 Our Approach, pp. 1-2】",
+          "inner": "3 Our Approach, pp. 1-2",
+          "section": "3 Our Approach",
+          "page_start": 1,
+          "page_end": 2,
+          "span": [
+            371,
+            396
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【3 Our Approach, pp. 1-2】",
+          "inner": "3 Our Approach, pp. 1-2",
+          "section": "3 Our Approach",
+          "page_start": 1,
+          "page_end": 2,
+          "span": [
+            371,
+            396
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "C4",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "How many substations are in the dataset and which years does it cover?",
+    "expected_answer": "The dataset contains hourly demand readings from 120 substations covering January 2021 to December 2023 [4 Data and Evaluation Protocol, p. 2].",
+    "must_contain": [
+      [
+        "120"
+      ],
+      [
+        "2021"
+      ],
+      [
+        "2023"
+      ]
+    ],
+    "covered": true,
+    "answer": "The dataset comprises **120 substations**. It spans **three years, from January 2021 through December 2023**【4 Data And Evaluation Protocol, p. 2】. (The same total of 120 substations is noted in the discussion of the results【6 Discussion And Threats To Validity, p. 3】.)",
+    "raw_answer": "The dataset comprises **120 substations**. It spans **three years, from January 2021 through December 2023**【4 Data And Evaluation Protocol, p. 2】. (The same total of 120 substations is noted in the discussion of the results【6 Discussion And Threats To Validity, p. 3】.)",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0,
+      1,
+      2
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 17.48,
+    "num_cited": 2,
+    "num_supported": 2,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "How many substations are in the dataset and which years does it cover?",
+    "pre_citations": [
+      [
+        {
+          "raw": "【4 Data And Evaluation Protocol, p. 2】",
+          "inner": "4 Data And Evaluation Protocol, p. 2",
+          "section": "4 Data And Evaluation Protocol",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            108,
+            146
+          ]
+        },
+        {
+          "raw": "【6 Discussion And Threats To Validity, p. 3】",
+          "inner": "6 Discussion And Threats To Validity, p. 3",
+          "section": "6 Discussion And Threats To Validity",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            224,
+            268
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【4 Data And Evaluation Protocol, p. 2】",
+          "inner": "4 Data And Evaluation Protocol, p. 2",
+          "section": "4 Data And Evaluation Protocol",
+          "page_start": 2,
+          "page_end": 2,
+          "span": [
+            108,
+            146
+          ]
+        },
+        {
+          "raw": "【6 Discussion And Threats To Validity, p. 3】",
+          "inner": "6 Discussion And Threats To Validity, p. 3",
+          "section": "6 Discussion And Threats To Validity",
+          "page_start": 3,
+          "page_end": 3,
+          "span": [
+            224,
+            268
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "C5",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "What MAPE does the LSTM reach when 20% of readings are missing?",
+    "expected_answer": "When 20% of input values are missing, the LSTM baseline's MAPE rises to 7.3% [Abstract, p. 1; 5 Results, p. 2-3].",
+    "must_contain": [
+      [
+        "7.3"
+      ]
+    ],
+    "covered": true,
+    "answer": "When 20 % of the input readings are missing, the LSTM’s mean absolute percentage error rises to **7.3 %** [5 Results, pp. 2-3].",
+    "raw_answer": "When 20 % of the input readings are missing, the LSTM’s mean absolute percentage error rises to **7.3 %** [5 Results, pp. 2-3].",
+    "refused": false,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 2,
+    "seconds": 18.3,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "What MAPE does the LSTM achieve when 20% of readings are missing?",
+    "pre_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            106,
+            126
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "[5 Results, pp. 2-3]",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            106,
+            126
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "C6",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "How long did training take and on what hardware?",
+    "expected_answer": "GridTCN was trained on an 8-core CPU without GPU in about 3.5 hours [3 Our Approach, p. 2].",
+    "must_contain": [
+      [
+        "3.5"
+      ],
+      [
+        "CPU"
+      ]
+    ],
+    "covered": true,
+    "answer": "The paper provides timing information for **inference** (the time to generate a 24‑hour forecast) but does not give details about training duration, training schedule, or the hardware used for training.\n\n- GridTCN produces a 24‑hour forecast in about **6 ms** on a single CPU core.  \n- For comparison, the LSTM takes **9 ms**, the Transformer encoder **18 ms**, SARIMA **420 ms**, and the Seasonal Naive baseline **1 ms** per 24‑hour forecast, all measured on one CPU core【5 Results, pp. 2-3】.\n\nNo information is given about the compute resources (e.g., GPUs, TPUs, ASICs), system configuration, or training runtime.",
+    "raw_answer": "The paper provides timing information for **inference** (the time to generate a 24‑hour forecast) but does not give details about training duration, training schedule, or the hardware used for training.\n\n- GridTCN produces a 24‑hour forecast in about **6 ms** on a single CPU core.  \n- For comparison, the LSTM takes **9 ms**, the Transformer encoder **18 ms**, SARIMA **420 ms**, and the Seasonal Naive baseline **1 ms** per 24‑hour forecast, all measured on one CPU core【5 Results, pp. 2-3】.\n\nNo information is given about the compute resources (e.g., GPUs, TPUs, ASICs), system configuration, or training runtime.",
+    "refused": false,
+    "score": 0.5,
+    "is_correct": false,
+    "matched_groups": [
+      1
+    ],
+    "missing_groups": [
+      0
+    ],
+    "correct_refusal": null,
+    "false_refusal": false,
+    "llm_calls": 3,
+    "seconds": 17.59,
+    "num_cited": 1,
+    "num_supported": 1,
+    "has_citations": true,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "training duration, training time, training period, compute time, runtime, training schedule, hardware used, hardware platform, system configuration, computational resources, GPU, graphics processing unit, CPU, central processing unit, accelerator, ASIC, TPU, hardware specifications, deep learning training, model training, training runtime, compute infrastructure, processing hardware, training hardware setup",
+    "pre_citations": [
+      [
+        {
+          "raw": "【5 Results, pp. 2-3】",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            472,
+            492
+          ]
+        }
+      ],
+      []
+    ],
+    "post_citations": [
+      [
+        {
+          "raw": "【5 Results, pp. 2-3】",
+          "inner": "5 Results, pp. 2-3",
+          "section": "5 Results",
+          "page_start": 2,
+          "page_end": 3,
+          "span": [
+            472,
+            492
+          ]
+        }
+      ],
+      []
+    ]
+  },
+  {
+    "question_id": "C7",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "Which component matters most in the ablation study?",
+    "expected_answer": "In the ablation study, dilated convolutions matter most; replacing them with standard convolutions degrades MAPE to 5.2% [5 Results, p. 3, Table 3].",
+    "must_contain": [
+      [
+        "dilat"
+      ],
+      [
+        "5.2"
+      ]
+    ],
+    "covered": true,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 0.0,
+    "is_correct": false,
+    "matched_groups": [],
+    "missing_groups": [
+      0,
+      1
+    ],
+    "correct_refusal": false,
+    "false_refusal": true,
+    "llm_calls": 2,
+    "seconds": 13.43,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_refuse",
+      "update_memory"
+    ],
+    "standalone_query": "ablation study component importance, most influential component, feature ablation contribution analysis, component significance assessment, critical module impact, relative contribution ranking, ablation methodology significance, component relevance evaluation",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "C8",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "What accuracy does BERT get on GLUE?",
+    "expected_answer": "The paper does not appear to cover this. BERT and GLUE are language model benchmarks not evaluated in this paper.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 18.98,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "BERT performance accuracy GLUE benchmark results evaluation metrics \"General Language Understanding Evaluation\" state-of-the-art score〕",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "C9",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "How does GridTCN perform on solar power forecasting?",
+    "expected_answer": "The paper does not appear to cover this. GridTCN was developed and tested on electricity demand forecasting across regional utility substations, not solar power forecasting.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 29.88,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "GridTCN solar power forecasting performance evaluation accuracy metrics MAE RMSE temporal convolutional network photovoltaic generation time series prediction renewable energy forecasting benchmark comparison\u0000",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  },
+  {
+    "question_id": "C10",
+    "paper_key": "paper_c",
+    "doc_id": "db7eabcf6208",
+    "question": "What is the BLEU score of GridTCN?",
+    "expected_answer": "The paper does not appear to cover this. BLEU score is a machine translation metric not applicable to time series load forecasting.",
+    "must_contain": [],
+    "covered": false,
+    "answer": "The paper does not appear to cover this.",
+    "raw_answer": "The paper does not appear to cover this.",
+    "refused": true,
+    "score": 1.0,
+    "is_correct": true,
+    "matched_groups": [
+      0
+    ],
+    "missing_groups": [],
+    "correct_refusal": true,
+    "false_refusal": false,
+    "llm_calls": 4,
+    "seconds": 28.04,
+    "num_cited": 0,
+    "num_supported": 0,
+    "has_citations": false,
+    "error": null,
+    "trace": [
+      "router_node",
+      "qa_retrieve",
+      "qa_answer",
+      "rewrite_query",
+      "qa_retrieve",
+      "qa_answer",
+      "update_memory"
+    ],
+    "standalone_query": "GridTCN BLEU score evaluation machine translation performance metric BLEU-4 neural temporal convolutional network translation quality assessment synonyms: BLEU metric, translation accuracy, benchmark results, GridTCN architecture performance.",
+    "pre_citations": [
+      [],
+      []
+    ],
+    "post_citations": [
+      [],
+      []
+    ]
+  }
+]

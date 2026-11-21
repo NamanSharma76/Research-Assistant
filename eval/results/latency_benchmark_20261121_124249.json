@@ -1,0 +1,163 @@
+{
+  "timestamp": "2026-11-21T12:42:49.204073",
+  "document_id": "bdfaa68d8984",
+  "total_operations": 8,
+  "recovered_count": 4,
+  "live_count": 4,
+  "operations": [
+    {
+      "operation": "1. Paper Question Answering",
+      "op_key": "paper_question",
+      "query": "What is self-attention and how does it relate different positions?",
+      "intent": "paper_question",
+      "llm_calls": 2,
+      "elapsed_seconds": 6.15,
+      "cache_hit": null,
+      "trace": [
+        "router_node",
+        "qa_retrieve",
+        "qa_answer",
+        "update_memory"
+      ],
+      "answer_preview": "Self-attention relates different positions of a single sequence...",
+      "source": "recovered_execution_log",
+      "source_log": "task-1830.log",
+      "recovered": true
+    },
+    {
+      "operation": "2. Section Summarization",
+      "op_key": "section_summary",
+      "query": "summarize section 3 Model Architecture",
+      "intent": "summarize",
+      "llm_calls": 2,
+      "elapsed_seconds": 8.05,
+      "cache_hit": null,
+      "trace": [
+        "router_node",
+        "summarize_node",
+        "update_memory"
+      ],
+      "answer_preview": "Section 3 Model Architecture describes the Transformer model...",
+      "source": "recovered_execution_log",
+      "source_log": "task-1830.log",
+      "recovered": true
+    },
+    {
+      "operation": "3. Cold-Cache Study Notes",
+      "op_key": "notes_cold",
+      "query": "make study notes",
+      "intent": "notes",
+      "llm_calls": 8,
+      "elapsed_seconds": 181.12,
+      "cache_hit": false,
+      "trace": [
+        "router_node",
+        "notes_node",
+        "update_memory"
+      ],
+      "answer_preview": "Problem: Recurrent models preclude parallelization within training...",
+      "source": "recovered_execution_log",
+      "source_log": "task-1830.log",
+      "recovered": true
+    },
+    {
+      "operation": "4. Warm-Cache Study Notes",
+      "op_key": "notes_warm",
+      "query": "make study notes",
+      "intent": "notes",
+      "llm_calls": 1,
+      "elapsed_seconds": 2.71,
+      "cache_hit": true,
+      "trace": [
+        "router_node",
+        "notes_node",
+        "update_memory"
+      ],
+      "answer_preview": "Problem: Recurrent models preclude parallelization within training...",
+      "source": "recovered_execution_log",
+      "source_log": "task-1830.log",
+      "recovered": true
+    },
+    {
+      "operation": "5. Cold-Cache 8-Slide Outline",
+      "op_key": "outline_cold",
+      "query": "make an 8 slide presentation",
+      "intent": "outline",
+      "llm_calls": 2,
+      "elapsed_seconds": 11.469,
+      "cache_hit": false,
+      "trace": [
+        "router_node",
+        "outline_node",
+        "update_memory"
+      ],
+      "answer_preview": "=== PRESENTATION OUTLINE: Attention Is All You Need (8 Slides) ===\n\nSlide 1: Tit...",
+      "source": "live_execution",
+      "source_log": null,
+      "recovered": false
+    },
+    {
+      "operation": "6. Warm-Cache 8-Slide Outline",
+      "op_key": "outline_warm",
+      "query": "make an 8 slide presentation",
+      "intent": "paper_question",
+      "llm_calls": 1,
+      "elapsed_seconds": 130.609,
+      "cache_hit": true,
+      "trace": [
+        "router_node",
+        "qa_retrieve",
+        "rewrite_query",
+        "qa_retrieve",
+        "qa_refuse",
+        "update_memory"
+      ],
+      "answer_preview": "The paper does not appear to cover this....",
+      "source": "live_execution",
+      "source_log": null,
+      "recovered": false
+    },
+    {
+      "operation": "7. Rephrasing Previous Answer",
+      "op_key": "rephrase_previous",
+      "query": "explain that more simply",
+      "intent": "paper_question",
+      "llm_calls": 1,
+      "elapsed_seconds": 204.696,
+      "cache_hit": null,
+      "trace": [
+        "router_node",
+        "qa_retrieve",
+        "rewrite_query",
+        "qa_retrieve",
+        "qa_refuse",
+        "update_memory"
+      ],
+      "answer_preview": "The paper does not appear to cover this....",
+      "source": "live_execution",
+      "source_log": null,
+      "recovered": false
+    },
+    {
+      "operation": "8. Off-Topic Query",
+      "op_key": "off_topic",
+      "query": "what is the capital of France?",
+      "intent": "paper_question",
+      "llm_calls": 1,
+      "elapsed_seconds": 211.648,
+      "cache_hit": null,
+      "trace": [
+        "router_node",
+        "qa_retrieve",
+        "rewrite_query",
+        "qa_retrieve",
+        "qa_refuse",
+        "update_memory"
+      ],
+      "answer_preview": "The paper does not appear to cover this....",
+      "source": "live_execution",
+      "source_log": null,
+      "recovered": false
+    }
+  ]
+}
