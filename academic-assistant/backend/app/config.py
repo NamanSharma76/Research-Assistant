@@ -4,11 +4,12 @@ from dotenv import load_dotenv
 
 # Base directory paths
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / "data"
-UPLOADS_DIR = DATA_DIR / "uploads"
-CHROMA_DIR = DATA_DIR / "chroma"
+DATA_DIR = Path(os.getenv("DATA_DIR", BASE_DIR / "data")).resolve()
+UPLOADS_DIR = Path(os.getenv("UPLOADS_DIR", DATA_DIR / "uploads")).resolve()
+CHROMA_DIR = Path(os.getenv("CHROMA_DIR", DATA_DIR / "chroma")).resolve()
 
 # Load environment variables
+load_dotenv(BASE_DIR.parent.parent / ".env")
 load_dotenv(BASE_DIR.parent / ".env")
 load_dotenv(BASE_DIR / ".env")
 
@@ -17,7 +18,21 @@ UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
 CHROMA_DIR.mkdir(parents=True, exist_ok=True)
 
 # ChromaDB Settings
-CHROMA_PERSIST_DIRECTORY = str(os.getenv("CHROMA_PERSIST_DIRECTORY", CHROMA_DIR))
+raw_chroma = os.getenv("CHROMA_PERSIST_DIRECTORY")
+if raw_chroma:
+    _p = Path(raw_chroma)
+    if not _p.is_absolute():
+        if raw_chroma.startswith("backend/data"):
+            CHROMA_PERSIST_DIRECTORY = str((BASE_DIR / raw_chroma[len("backend/"):].lstrip("/\\")).resolve())
+        elif raw_chroma.startswith("data"):
+            CHROMA_PERSIST_DIRECTORY = str((BASE_DIR / raw_chroma).resolve())
+        else:
+            CHROMA_PERSIST_DIRECTORY = str((BASE_DIR.parent / raw_chroma).resolve())
+    else:
+        CHROMA_PERSIST_DIRECTORY = str(_p.resolve())
+else:
+    CHROMA_PERSIST_DIRECTORY = str(CHROMA_DIR.resolve())
+
 CHROMA_COLLECTION_NAME = os.getenv("CHROMA_COLLECTION_NAME", "academic_papers")
 
 # Embedding Settings
@@ -41,7 +56,7 @@ GROQ_MODEL_MAIN = os.getenv("GROQ_MODEL_MAIN", "openai/gpt-oss-120b")
 GROQ_MODEL_FAST = os.getenv("GROQ_MODEL_FAST", "openai/gpt-oss-20b")
 
 # Cache Settings
-CACHE_VERSION = int(os.getenv("CACHE_VERSION", 2))
+CACHE_VERSION = int(os.getenv("CACHE_VERSION", 3))
 
 # Orchestration & Router Settings
 MAX_QA_RETRIES = int(os.getenv("MAX_QA_RETRIES", 1))
@@ -65,5 +80,3 @@ JWT_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", 60))
 MAX_UPLOAD_MB = int(os.getenv("MAX_UPLOAD_MB", 20))
 CORS_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:8501").split(",") if origin.strip()]
 CHAT_HISTORY_LOAD_TURNS = int(os.getenv("CHAT_HISTORY_LOAD_TURNS", 4))
-
-

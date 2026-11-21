@@ -91,6 +91,11 @@ def outline_to_markdown(outline_data: Dict[str, Any]) -> str:
                 source = ""
                 bullets = [str(slide)]
 
+            if isinstance(bullets, str):
+                bullets = [bullets]
+            elif not isinstance(bullets, list):
+                bullets = [str(bullets)] if bullets else []
+
             lines.append(f"## Slide {slide_num}: {slide_title}")
             if source:
                 lines.append(f"**Sources:** {source}\n")
@@ -121,6 +126,11 @@ def outline_to_text(outline_data: Dict[str, Any]) -> str:
                 slide_title = f"Slide {slide_num}"
                 source = ""
                 bullets = [str(slide)]
+
+            if isinstance(bullets, str):
+                bullets = [bullets]
+            elif not isinstance(bullets, list):
+                bullets = [str(bullets)] if bullets else []
 
             lines.append(f"Slide {slide_num}: {slide_title}")
             if source:

@@ -39,6 +39,11 @@ def render_notes_view(token: str, doc_id: str):
         st.info("Click 'Load Notes' to view or generate structured revision notes.")
         return
 
+    if not isinstance(notes_data, dict):
+        st.error("Invalid notes format received.")
+        st.write(notes_data)
+        return
+
     # Render main note sections
     for field_key, field_label in KNOWN_SECTION_FIELDS.items():
         if field_key in notes_data:
@@ -54,6 +59,8 @@ def render_notes_view(token: str, doc_id: str):
                             st.markdown(render_citations_to_html(f"- {src}"), unsafe_allow_html=True)
                 elif isinstance(field_data, str):
                     st.markdown(render_citations_to_html(field_data), unsafe_allow_html=True)
+                else:
+                    st.write(field_data)
 
     # Key Terms
     key_terms = notes_data.get("key_terms", [])
@@ -63,14 +70,20 @@ def render_notes_view(token: str, doc_id: str):
                 if isinstance(t, dict):
                     term = t.get("term", "")
                     definition = t.get("definition", "")
-                    sources = t.get("sources", [])
+                    raw_sources = t.get("sources", [])
+                    if isinstance(raw_sources, list):
+                        sources = [str(s) for s in raw_sources]
+                    elif raw_sources:
+                        sources = [str(raw_sources)]
+                    else:
+                        sources = []
                 else:
                     term = str(t)
                     definition = ""
                     sources = []
-                st.markdown(f"**{term}**")
+                st.markdown(render_citations_to_html(f"**{term}**"), unsafe_allow_html=True)
                 if definition:
-                    st.markdown(render_citations_to_html(definition), unsafe_allow_html=True)
+                    st.markdown(render_citations_to_html(str(definition)), unsafe_allow_html=True)
                 if sources:
                     st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
                 st.markdown("---")
@@ -83,12 +96,18 @@ def render_notes_view(token: str, doc_id: str):
                 if isinstance(q, dict):
                     question_text = q.get("question", "")
                     expected = q.get("expected_answer", q.get("answer", ""))
-                    sources = q.get("sources", [])
+                    raw_sources = q.get("sources", [])
+                    if isinstance(raw_sources, list):
+                        sources = [str(s) for s in raw_sources]
+                    elif raw_sources:
+                        sources = [str(raw_sources)]
+                    else:
+                        sources = []
                 else:
                     question_text = str(q)
                     expected = ""
                     sources = []
-                st.markdown(f"**Q{idx}: {question_text}**")
+                st.markdown(render_citations_to_html(f"**Q{idx}: {question_text}**"), unsafe_allow_html=True)
                 if expected:
                     st.markdown(render_citations_to_html(f"*Answer:* {expected}"), unsafe_allow_html=True)
                 if sources:

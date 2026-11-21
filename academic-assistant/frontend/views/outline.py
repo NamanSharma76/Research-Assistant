@@ -35,6 +35,11 @@ def render_outline_view(token: str, doc_id: str):
         st.info("Select desired slide count and click 'Generate Outline' to create a slide deck.")
         return
 
+    if not isinstance(outline_data, dict):
+        st.error("Invalid outline format received.")
+        st.write(outline_data)
+        return
+
     # Deck title & action buttons
     title = outline_data.get("title", "Presentation Outline")
     st.subheader(f"📑 {title}")
@@ -66,8 +71,8 @@ def render_outline_view(token: str, doc_id: str):
     if isinstance(slides, list):
         for idx, slide in enumerate(slides, start=1):
             if isinstance(slide, dict):
-                slide_num = slide.get("slide_number", idx)
-                slide_title = slide.get("title", f"Slide {slide_num}")
+                slide_num = slide.get("slide_number", idx) or idx
+                slide_title = slide.get("title", f"Slide {slide_num}") or f"Slide {slide_num}"
                 source = slide.get("source", "")
                 bullets = slide.get("bullets", []) or slide.get("points", [])
             else:
@@ -79,6 +84,11 @@ def render_outline_view(token: str, doc_id: str):
             with st.container(border=True):
                 st.markdown(f"### Slide {slide_num}: {slide_title}")
                 if source:
-                    st.markdown(f"**Sources:** {render_citations_to_html(source)}", unsafe_allow_html=True)
-                for b in bullets:
-                    st.markdown(f"- {b}")
+                    st.markdown(f"**Sources:** {render_citations_to_html(str(source))}", unsafe_allow_html=True)
+                if isinstance(bullets, list):
+                    for b in bullets:
+                        st.markdown(f"- {render_citations_to_html(str(b))}", unsafe_allow_html=True)
+                elif isinstance(bullets, str):
+                    st.markdown(f"- {render_citations_to_html(bullets)}", unsafe_allow_html=True)
+                elif bullets:
+                    st.markdown(f"- {render_citations_to_html(str(bullets))}", unsafe_allow_html=True)
