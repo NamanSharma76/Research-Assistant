@@ -71,22 +71,24 @@ def render_outline_view(token: str, doc_id: str):
     if isinstance(slides, list):
         for idx, slide in enumerate(slides, start=1):
             if isinstance(slide, dict):
-                slide_num = slide.get("slide_number", idx)
-                slide_title = slide.get("title", f"Slide {slide_num}")
+                slide_num = slide.get("slide_number", idx) or idx
+                slide_title = slide.get("title", f"Slide {slide_num}") or f"Slide {slide_num}"
                 source = slide.get("source", "")
                 bullets = slide.get("bullets", []) or slide.get("points", [])
             else:
                 slide_num = idx
-                slide_title = f"Slide {idx}"
+                slide_title = f"Slide {slide_num}"
                 source = ""
                 bullets = [str(slide)]
 
             with st.container(border=True):
                 st.markdown(f"### Slide {slide_num}: {slide_title}")
                 if source:
-                    st.markdown(f"**Sources:** {render_citations_to_html(source)}", unsafe_allow_html=True)
+                    st.markdown(f"**Sources:** {render_citations_to_html(str(source))}", unsafe_allow_html=True)
                 if isinstance(bullets, list):
                     for b in bullets:
-                        st.markdown(f"- {b}")
+                        st.markdown(f"- {render_citations_to_html(str(b))}", unsafe_allow_html=True)
                 elif isinstance(bullets, str):
-                    st.markdown(f"- {bullets}")
+                    st.markdown(f"- {render_citations_to_html(bullets)}", unsafe_allow_html=True)
+                elif bullets:
+                    st.markdown(f"- {render_citations_to_html(str(bullets))}", unsafe_allow_html=True)

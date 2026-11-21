@@ -140,6 +140,223 @@ class TestComponents(unittest.TestCase):
         err_timeout = ApiError(504, "Backend not reachable. Check that the server is running", is_connection_error=True)
         self.assertEqual("Backend not reachable. Check that the server is running", render_error_message(err_timeout))
 
+    def test_outline_to_markdown_string_slides(self):
+        outline_data = {
+            "title": "Presentation Outline",
+            "slides": [
+                "Overview of Transformer architecture",
+                "Empirical evaluation on WMT 2014",
+            ],
+        }
+        md = outline_to_markdown(outline_data)
+        self.assertIn("# Presentation Outline", md)
+        self.assertIn("## Slide 1: Slide 1", md)
+        self.assertIn("- Overview of Transformer architecture", md)
+        self.assertIn("## Slide 2: Slide 2", md)
+        self.assertIn("- Empirical evaluation on WMT 2014", md)
+
+    def test_outline_to_markdown_mixed_slides_and_string_bullets(self):
+        outline_data = {
+            "title": "Mixed Deck",
+            "slides": [
+                {
+                    "slide_number": 1,
+                    "title": "Introduction",
+                    "bullets": ["Point A", "Point B"],
+                    "source": "[Intro, p. 1]",
+                },
+                {
+                    "slide_number": 2,
+                    "title": "Methodology",
+                    "bullets": "Single string bullet should not split chars",
+                },
+                "Bare string slide content",
+            ],
+        }
+        md = outline_to_markdown(outline_data)
+        self.assertIn("## Slide 1: Introduction", md)
+        self.assertIn("- Point A", md)
+        self.assertIn("## Slide 2: Methodology", md)
+        self.assertIn("- Single string bullet should not split chars", md)
+        self.assertNotIn("- S\n- i\n- n", md)
+        self.assertIn("## Slide 3: Slide 3", md)
+        self.assertIn("- Bare string slide content", md)
+
+    def test_outline_to_text_string_slides(self):
+        outline_data = {
+            "title": "Presentation Text",
+            "slides": [
+                "Overview slide string",
+                "Conclusion slide string",
+            ],
+        }
+        txt = outline_to_text(outline_data)
+        self.assertIn("PRESENTATION TEXT", txt)
+        self.assertIn("Slide 1: Slide 1", txt)
+        self.assertIn("  * Overview slide string", txt)
+        self.assertIn("Slide 2: Slide 2", txt)
+        self.assertIn("  * Conclusion slide string", txt)
+
+    def test_outline_to_text_mixed_slides_and_string_bullets(self):
+        outline_data = {
+            "title": "Mixed Text Deck",
+            "slides": [
+                {
+                    "slide_number": 1,
+                    "title": "Overview",
+                    "bullets": ["Dict bullet 1"],
+                },
+                {
+                    "slide_number": 2,
+                    "title": "Details",
+                    "bullets": "Single string bullet in text",
+                },
+                "String slide in text",
+            ],
+        }
+        txt = outline_to_text(outline_data)
+        self.assertIn("Slide 1: Overview", txt)
+        self.assertIn("  * Dict bullet 1", txt)
+        self.assertIn("Slide 2: Details", txt)
+        self.assertIn("  * Single string bullet in text", txt)
+        self.assertNotIn("  * S\n  * i", txt)
+        self.assertIn("Slide 3: Slide 3", txt)
+        self.assertIn("  * String slide in text", txt)
+
+    def test_notes_view_key_terms_dict_and_string_normalization(self):
+        from unittest.mock import MagicMock, patch
+        import views.notes as notes_view
+
+        mock_st = MagicMock()
+        c1, c2, c3 = MagicMock(), MagicMock(), MagicMock()
+        c1.button.return_value = False
+        c2.button.return_value = False
+        mock_st.columns.return_value = (c1, c2, c3)
+        mock_st.session_state = {
+            "notes_test_doc": {
+                "key_terms": [
+                    {
+                        "term": "Self-Attention",
+                        "definition": "Relates different positions [Architecture, p. 3]",
+                        "sources": ["p. 3"],
+                    },
+                    "LayerNorm [Optimization, pp. 4-5]",
+                    "<script>alert('xss')</script> [Sec 1, p. 1]",
+                ]
+            }
+        }
+
+        with patch("views.notes.st", mock_st):
+            notes_view.render_notes_view("fake_token", "test_doc")
+
+        markdown_calls = [call.args[0] for call in mock_st.markdown.call_args_list if call.args]
+        joined_output = "\n".join(markdown_calls)
+
+        self.assertIn("**Self-Attention**", joined_output)
+        self.assertIn("Relates different positions", joined_output)
+        self.assertIn("Architecture, p. 3", joined_output)
+        self.assertIn("citation-chip", joined_output)
+        self.assertIn("LayerNorm", joined_output)
+        self.assertIn("Optimization, pp. 4-5", joined_output)
+        self.assertNotIn("<script>", joined_output)
+        self.assertIn("&lt;script&gt;", joined_output)
+
+    def test_notes_view_revision_questions_dict_and_string_normalization(self):
+        from unittest.mock import MagicMock, patch
+        import views.notes as notes_view
+
+        mock_st = MagicMock()
+        c1, c2, c3 = MagicMock(), MagicMock(), MagicMock()
+        c1.button.return_value = False
+        c2.button.return_value = False
+        mock_st.columns.return_value = (c1, c2, c3)
+        mock_st.session_state = {
+            "notes_test_doc": {
+                "revision_questions": [
+                    {
+                        "question": "What is Q? [Model, p. 3]",
+                        "expected_answer": "Query vector",
+                        "sources": ["p. 3"],
+                    },
+                    {
+                        "question": "What is K?",
+                        "answer": "Key vector fallback",
+                    },
+                    "How is BLEU evaluated? [Results, pp. 6-7]",
+                    "<img src=x onerror=alert(1)> [Eval, p. 6]",
+                ]
+            }
+        }
+
+        with patch("views.notes.st", mock_st):
+            notes_view.render_notes_view("fake_token", "test_doc")
+
+        markdown_calls = [call.args[0] for call in mock_st.markdown.call_args_list if call.args]
+        joined_output = "\n".join(markdown_calls)
+
+        self.assertIn("Q1: What is Q?", joined_output)
+        self.assertIn("*Answer:* Query vector", joined_output)
+        self.assertIn("Q2: What is K?", joined_output)
+        self.assertIn("*Answer:* Key vector fallback", joined_output)
+        self.assertIn("Q3: How is BLEU evaluated?", joined_output)
+        self.assertIn("Q4:", joined_output)
+        self.assertNotIn("<img", joined_output)
+        self.assertIn("&lt;img", joined_output)
+        self.assertIn("citation-chip", joined_output)
+
+    def test_outline_view_dict_and_string_slides(self):
+        from unittest.mock import MagicMock, patch
+        import views.outline as outline_view
+
+        mock_st = MagicMock()
+        c1, c2, c3 = MagicMock(), MagicMock(), MagicMock()
+        c1.slider.return_value = 8
+        c2.button.return_value = False
+        mock_st.columns.return_value = (c1, c2, c3)
+        mock_st.session_state = {
+            "outline_test_doc_8": {
+                "title": "Transformer Presentation",
+                "slides": [
+                    {
+                        "slide_number": 1,
+                        "title": "Model Architecture",
+                        "bullets": ["Attention [Model, p. 3]"],
+                        "source": "[Model, p. 3]",
+                    },
+                    {
+                        "title": "Training Setup",
+                        "bullets": "Warmup and Adam optimizer [Setup, p. 5]",
+                    },
+                    "Conclusion and Future Directions [Discussion, p. 8]",
+                ],
+            }
+        }
+
+        with patch("views.outline.st", mock_st):
+            outline_view.render_outline_view("fake_token", "test_doc")
+
+        markdown_calls = [call.args[0] for call in mock_st.markdown.call_args_list if call.args]
+        joined_output = "\n".join(markdown_calls)
+
+        self.assertIn("Slide 1: Model Architecture", joined_output)
+        self.assertIn("Slide 2: Training Setup", joined_output)
+        self.assertIn("Slide 3: Slide 3", joined_output)
+        self.assertIn("Conclusion and Future Directions", joined_output)
+        self.assertIn("citation-chip", joined_output)
+
+    def test_citation_formatting_and_html_cleaning_after_normalization(self):
+        dirty_input = "<b onclick='bad()'>Bold</b> [Security, pp. 1-2]"
+        cleaned = render_citations_to_html(dirty_input)
+        self.assertNotIn("<b onclick", cleaned)
+        self.assertIn("&lt;b onclick=&#x27;bad()&#x27;&gt;Bold&lt;/b&gt;", cleaned)
+        self.assertIn("class=\"citation-chip\"", cleaned)
+        self.assertIn("Security, pp. 1-2", cleaned)
+
+        lenticular_input = "Claim with lenticular brackets 【Methods, p. 4】"
+        lenticular_cleaned = render_citations_to_html(lenticular_input)
+        self.assertIn("class=\"citation-chip\"", lenticular_cleaned)
+        self.assertIn("Methods, p. 4", lenticular_cleaned)
+
 
 if __name__ == "__main__":
     unittest.main()

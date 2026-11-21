@@ -70,14 +70,22 @@ def render_notes_view(token: str, doc_id: str):
                 if isinstance(t, dict):
                     term = t.get("term", "")
                     definition = t.get("definition", "")
-                    sources = t.get("sources", [])
-                    st.markdown(f"**{term}**")
-                    if definition:
-                        st.markdown(render_citations_to_html(definition), unsafe_allow_html=True)
-                    if sources:
-                        st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
+                    raw_sources = t.get("sources", [])
+                    if isinstance(raw_sources, list):
+                        sources = [str(s) for s in raw_sources]
+                    elif raw_sources:
+                        sources = [str(raw_sources)]
+                    else:
+                        sources = []
                 else:
-                    st.markdown(render_citations_to_html(f"- {str(t)}"), unsafe_allow_html=True)
+                    term = str(t)
+                    definition = ""
+                    sources = []
+                st.markdown(render_citations_to_html(f"**{term}**"), unsafe_allow_html=True)
+                if definition:
+                    st.markdown(render_citations_to_html(str(definition)), unsafe_allow_html=True)
+                if sources:
+                    st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
                 st.markdown("---")
 
     # Revision Questions
@@ -87,15 +95,23 @@ def render_notes_view(token: str, doc_id: str):
             for idx, q in enumerate(questions, start=1):
                 if isinstance(q, dict):
                     question_text = q.get("question", "")
-                    expected = q.get("expected_answer", "")
-                    sources = q.get("sources", [])
-                    st.markdown(f"**Q{idx}: {question_text}**")
-                    if expected:
-                        st.markdown(render_citations_to_html(f"*Answer:* {expected}"), unsafe_allow_html=True)
-                    if sources:
-                        st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
+                    expected = q.get("expected_answer", q.get("answer", ""))
+                    raw_sources = q.get("sources", [])
+                    if isinstance(raw_sources, list):
+                        sources = [str(s) for s in raw_sources]
+                    elif raw_sources:
+                        sources = [str(raw_sources)]
+                    else:
+                        sources = []
                 else:
-                    st.markdown(f"**Q{idx}:** {render_citations_to_html(str(q))}", unsafe_allow_html=True)
+                    question_text = str(q)
+                    expected = ""
+                    sources = []
+                st.markdown(render_citations_to_html(f"**Q{idx}: {question_text}**"), unsafe_allow_html=True)
+                if expected:
+                    st.markdown(render_citations_to_html(f"*Answer:* {expected}"), unsafe_allow_html=True)
+                if sources:
+                    st.markdown(render_citations_to_html("Sources: " + ", ".join(sources)), unsafe_allow_html=True)
                 st.markdown("---")
 
     # Render any unrecognized extra keys safely without dropping
