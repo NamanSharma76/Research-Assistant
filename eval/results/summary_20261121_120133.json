@@ -1,0 +1,91 @@
+{
+  "timestamp": "2026-11-21T12:01:33.389838",
+  "configuration": {
+    "model_main": "openai/gpt-oss-120b",
+    "model_fast": "openai/gpt-oss-120b",
+    "embedding_model": "all-MiniLM-L6-v2",
+    "relevance_threshold": 0.25,
+    "chunk_size_tokens": 800,
+    "chunk_overlap_tokens": 100
+  },
+  "baseline": null,
+  "agentic": {
+    "total_questions": 30,
+    "valid_evaluations": 30,
+    "infrastructure_failures": 0,
+    "correct_answers": 25,
+    "accuracy": 0.8333333333333334,
+    "overall_accuracy": 0.8333333333333334,
+    "mean_score": 0.9055555555555556,
+    "denominators": {
+      "total_questions": 30,
+      "valid_questions": 30,
+      "answerable_questions": 21,
+      "unanswerable_questions": 9
+    },
+    "answerable_metrics": {
+      "total_answerable": 21,
+      "correct_answerable": 16,
+      "accuracy": 0.7619047619047619,
+      "false_refusals": 1
+    },
+    "refusal_metrics": {
+      "expected_unanswerable": 9,
+      "triggered_refusals": 10,
+      "true_refusals": 9,
+      "precision": 0.9,
+      "recall": 1.0
+    },
+    "citation_metrics": {
+      "total_cited": 28,
+      "total_supported": 27,
+      "precision": 0.9642857142857143,
+      "answers_with_citations": 20,
+      "citation_rate": 0.6666666666666666
+    },
+    "latency_metrics": {
+      "avg_seconds": 22.37,
+      "p50_seconds": 18.96,
+      "p95_seconds": 45.33
+    },
+    "llm_call_metrics": {
+      "total_calls": 78,
+      "avg_calls_per_turn": 2.6
+    },
+    "per_paper": {
+      "paper_a": {
+        "total": 10,
+        "correct": 9,
+        "answerable_correct": 6,
+        "answerable_total": 7,
+        "refusal_correct": 3,
+        "refusal_total": 3,
+        "overall_accuracy": 0.9,
+        "answerable_accuracy": 0.8571428571428571,
+        "refusal_accuracy": 1.0
+      },
+      "paper_b": {
+        "total": 10,
+        "correct": 9,
+        "answerable_correct": 6,
+        "answerable_total": 7,
+        "refusal_correct": 3,
+        "refusal_total": 3,
+        "overall_accuracy": 0.9,
+        "answerable_accuracy": 0.8571428571428571,
+        "refusal_accuracy": 1.0
+      },
+      "paper_c": {
+        "total": 10,
+        "correct": 7,
+        "answerable_correct": 4,
+        "answerable_total": 7,
+        "refusal_correct": 3,
+        "refusal_total": 3,
+        "overall_accuracy": 0.7,
+        "answerable_accuracy": 0.5714285714285714,
+        "refusal_accuracy": 1.0
+      }
+    }
+  }
+}

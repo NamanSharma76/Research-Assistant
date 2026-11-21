@@ -1,0 +1,538 @@
+{
+  "timestamp": "2026-11-21T12:05:49.110475",
+  "total_cases": 40,
+  "correct": 36,
+  "accuracy": 0.9,
+  "per_intent": {
+    "paper_question": {
+      "support": 13,
+      "true_positives": 11,
+      "false_positives": 0,
+      "false_negatives": 2,
+      "precision": 1.0,
+      "recall": 0.846,
+      "f1_score": 0.917
+    },
+    "summarize": {
+      "support": 6,
+      "true_positives": 6,
+      "false_positives": 1,
+      "false_negatives": 0,
+      "precision": 0.857,
+      "recall": 1.0,
+      "f1_score": 0.923
+    },
+    "notes": {
+      "support": 2,
+      "true_positives": 2,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0
+    },
+    "outline": {
+      "support": 3,
+      "true_positives": 3,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0
+    },
+    "rephrase_previous": {
+      "support": 4,
+      "true_positives": 4,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0
+    },
+    "off_topic": {
+      "support": 8,
+      "true_positives": 7,
+      "false_positives": 0,
+      "false_negatives": 1,
+      "precision": 1.0,
+      "recall": 0.875,
+      "f1_score": 0.933
+    },
+    "needs_clarification": {
+      "support": 4,
+      "true_positives": 3,
+      "false_positives": 3,
+      "false_negatives": 1,
+      "precision": 0.5,
+      "recall": 0.75,
+      "f1_score": 0.6
+    }
+  },
+  "confusion_matrix": {
+    "paper_question": {
+      "paper_question": 11,
+      "summarize": 0,
+      "notes": 0,
+      "outline": 0,
+      "rephrase_previous": 0,
+      "off_topic": 0,
+      "needs_clarification": 2
+    },
+    "summarize": {
+      "paper_question": 0,
+      "summarize": 6,
+      "notes": 0,
+      "outline": 0,
+      "rephrase_previous": 0,
+      "off_topic": 0,
+      "needs_clarification": 0
+    },
+    "notes": {
+      "paper_question": 0,
+      "summarize": 0,
+      "notes": 2,
+      "outline": 0,
+      "rephrase_previous": 0,
+      "off_topic": 0,
+      "needs_clarification": 0
+    },
+    "outline": {
+      "paper_question": 0,
+      "summarize": 0,
+      "notes": 0,
+      "outline": 3,
+      "rephrase_previous": 0,
+      "off_topic": 0,
+      "needs_clarification": 0
+    },
+    "rephrase_previous": {
+      "paper_question": 0,
+      "summarize": 0,
+      "notes": 0,
+      "outline": 0,
+      "rephrase_previous": 4,
+      "off_topic": 0,
+      "needs_clarification": 0
+    },
+    "off_topic": {
+      "paper_question": 0,
+      "summarize": 0,
+      "notes": 0,
+      "outline": 0,
+      "rephrase_previous": 0,
+      "off_topic": 7,
+      "needs_clarification": 1
+    },
+    "needs_clarification": {
+      "paper_question": 0,
+      "summarize": 1,
+      "notes": 0,
+      "outline": 0,
+      "rephrase_previous": 0,
+      "off_topic": 0,
+      "needs_clarification": 3
+    }
+  },
+  "predictions": [
+    {
+      "id": 1,
+      "message": "What BLEU score did the Transformer achieve on English-to-German?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "What BLEU score did the Transformer achieve on English-to-German?",
+      "reason": "The user asks for a specific factual result (BLEU score) reported in the paper.",
+      "elapsed_seconds": 3.326
+    },
+    {
+      "id": 2,
+      "message": "explain that more simply",
+      "expected_intent": "rephrase_previous",
+      "predicted_intent": "rephrase_previous",
+      "is_match": true,
+      "standalone_query": "Explain the Transformer’s BLEU score result in simpler terms.",
+      "reason": "User requests a simpler explanation of the previous answer, matching the rephrase_previous intent.",
+      "elapsed_seconds": 3.058
+    },
+    {
+      "id": 3,
+      "message": "shorter",
+      "expected_intent": "rephrase_previous",
+      "predicted_intent": "rephrase_previous",
+      "is_match": true,
+      "standalone_query": "Provide a shorter version of the previous answer.",
+      "reason": "User explicitly requests a shorter version of the assistant's last answer.",
+      "elapsed_seconds": 2.867
+    },
+    {
+      "id": 4,
+      "message": "shorter",
+      "expected_intent": "paper_question",
+      "predicted_intent": "needs_clarification",
+      "is_match": false,
+      "standalone_query": "Please clarify what you would like shortened.",
+      "reason": "The request 'shorter' lacks context or a clear referent; no prior output exists to rephrase.",
+      "elapsed_seconds": 2.968
+    },
+    {
+      "id": 5,
+      "message": "summarize section 6",
+      "expected_intent": "summarize",
+      "predicted_intent": "summarize",
+      "is_match": true,
+      "standalone_query": "Summarize section 6 of the paper.",
+      "reason": "User explicitly requests a summary of section 6, which corresponds to the '6 Results' section.",
+      "elapsed_seconds": 2.538
+    },
+    {
+      "id": 6,
+      "message": "give me a summary of the whole paper",
+      "expected_intent": "summarize",
+      "predicted_intent": "summarize",
+      "is_match": true,
+      "standalone_query": "Provide a summary of the entire paper.",
+      "reason": "User explicitly asks for a summary of the whole paper, matching the 'summarize' intent with no specific section.",
+      "elapsed_seconds": 2.744
+    },
+    {
+      "id": 7,
+      "message": "summarize the Introduction",
+      "expected_intent": "summarize",
+      "predicted_intent": "summarize",
+      "is_match": true,
+      "standalone_query": "Summarize the Introduction section",
+      "reason": "User explicitly asks for a summary of the Introduction; matches the summarize intent with a specific section.",
+      "elapsed_seconds": 2.565
+    },
+    {
+      "id": 8,
+      "message": "summarize section 99 Quantum Physics",
+      "expected_intent": "needs_clarification",
+      "predicted_intent": "summarize",
+      "is_match": false,
+      "standalone_query": "Summarize the Quantum Physics section (section 99) of the paper",
+      "reason": "User asks to summarize a specific section, but 'section 99 Quantum Physics' is not among the available document sections.",
+      "elapsed_seconds": 3.11
+    },
+    {
+      "id": 9,
+      "message": "what about the limitations?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "What are the limitations of the Transformer architecture?",
+      "reason": "User asks for information about limitations, directly referring to the previously discussed Transformer architecture; this is a factual request about the paper's content.",
+      "elapsed_seconds": 2.969
+    },
+    {
+      "id": 10,
+      "message": "make study notes",
+      "expected_intent": "notes",
+      "predicted_intent": "notes",
+      "is_match": true,
+      "standalone_query": "Create study notes for the paper",
+      "reason": "User explicitly asks to make study notes, matching the 'notes' intent.",
+      "elapsed_seconds": 2.766
+    },
+    {
+      "id": 11,
+      "message": "generate structured revision notes for this paper",
+      "expected_intent": "notes",
+      "predicted_intent": "notes",
+      "is_match": true,
+      "standalone_query": "Generate structured revision notes for the paper.",
+      "reason": "User explicitly asks for structured revision notes, which maps to the 'notes' intent.",
+      "elapsed_seconds": 2.858
+    },
+    {
+      "id": 12,
+      "message": "make a 6 slide presentation",
+      "expected_intent": "outline",
+      "predicted_intent": "outline",
+      "is_match": true,
+      "standalone_query": "Create a 6-slide presentation outline for the paper.",
+      "reason": "User explicitly requests a presentation with a specific slide count, matching the outline intent.",
+      "elapsed_seconds": 2.669
+    },
+    {
+      "id": 13,
+      "message": "create a presentation outline",
+      "expected_intent": "outline",
+      "predicted_intent": "outline",
+      "is_match": true,
+      "standalone_query": "Create a presentation outline for the paper.",
+      "reason": "User explicitly requests a presentation outline, matching the 'outline' intent. No slide count or specific section is mentioned.",
+      "elapsed_seconds": 2.869
+    },
+    {
+      "id": 14,
+      "message": "what is the capital of France?",
+      "expected_intent": "off_topic",
+      "predicted_intent": "off_topic",
+      "is_match": true,
+      "standalone_query": "What is the capital of France?",
+      "reason": "The question is unrelated to research papers, academic content, or study assistance.",
+      "elapsed_seconds": 2.56
+    },
+    {
+      "id": 15,
+      "message": "What accuracy does BERT get on GLUE?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "What accuracy does BERT achieve on the GLUE benchmark?",
+      "reason": "User asks for a specific performance metric from the paper, which is a factual question about BERT's GLUE accuracy.",
+      "elapsed_seconds": 2.564
+    },
+    {
+      "id": 16,
+      "message": "tell me about the other one",
+      "expected_intent": "needs_clarification",
+      "predicted_intent": "needs_clarification",
+      "is_match": true,
+      "standalone_query": "Tell me about the other one",
+      "reason": "The phrase 'the other one' has no clear referent in the visible chat history, making the request ambiguous.",
+      "elapsed_seconds": 4.199
+    },
+    {
+      "id": 17,
+      "message": "tell me about the other one",
+      "expected_intent": "paper_question",
+      "predicted_intent": "needs_clarification",
+      "is_match": false,
+      "standalone_query": "Tell me about the other language pair mentioned (English-to-German or English-to-French).",
+      "reason": "The pronoun \"the other one\" is ambiguous between English-to-German and English-to-French; cannot resolve from visible history.",
+      "elapsed_seconds": 8.494
+    },
+    {
+      "id": 18,
+      "message": "why not 16 heads?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "Why did the authors choose 8 attention heads instead of 16?",
+      "reason": "User asks for the rationale behind the design choice of 8 heads, a factual/conceptual question about the paper.",
+      "elapsed_seconds": 8.017
+    },
+    {
+      "id": 19,
+      "message": "write a python script to download cat pictures",
+      "expected_intent": "off_topic",
+      "predicted_intent": "off_topic",
+      "is_match": true,
+      "standalone_query": "Provide a Python script that downloads cat pictures.",
+      "reason": "The request is for a code script unrelated to research papers, which falls under off_topic.",
+      "elapsed_seconds": 6.933
+    },
+    {
+      "id": 20,
+      "message": "how does multi-head attention work?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "Explain how multi-head attention works.",
+      "reason": "The user asks for a factual explanation of a machine‑learning concept, which matches the paper_question intent.",
+      "elapsed_seconds": 5.94
+    },
+    {
+      "id": 21,
+      "message": "can you give an everyday analogy for that?",
+      "expected_intent": "rephrase_previous",
+      "predicted_intent": "rephrase_previous",
+      "is_match": true,
+      "standalone_query": "Provide an everyday analogy for how positional encodings are computed using sine and cosine functions.",
+      "reason": "User asks for an everyday analogy to explain the previously given explanation of positional encodings, which is a request to restate the prior answer in a different style.",
+      "elapsed_seconds": 2.969
+    },
+    {
+      "id": 22,
+      "message": "summarize section 3 Model Architecture",
+      "expected_intent": "summarize",
+      "predicted_intent": "summarize",
+      "is_match": true,
+      "standalone_query": "Summarize section 3 Model Architecture",
+      "reason": "User explicitly asks to summarize a specific section of the paper.",
+      "elapsed_seconds": 9.011
+    },
+    {
+      "id": 23,
+      "message": "summarize the conclusion",
+      "expected_intent": "summarize",
+      "predicted_intent": "summarize",
+      "is_match": true,
+      "standalone_query": "Summarize the paper's conclusion section.",
+      "reason": "User explicitly requests a summary of the conclusion section.",
+      "elapsed_seconds": 5.939
+    },
+    {
+      "id": 24,
+      "message": "give me 12 slides for a tech talk",
+      "expected_intent": "outline",
+      "predicted_intent": "outline",
+      "is_match": true,
+      "standalone_query": "Provide a 12-slide outline for a tech talk",
+      "reason": "User explicitly asks for a set number of slides for a tech talk, matching the outline intent.",
+      "elapsed_seconds": 2.867
+    },
+    {
+      "id": 25,
+      "message": "who is the prime minister of Canada?",
+      "expected_intent": "off_topic",
+      "predicted_intent": "off_topic",
+      "is_match": true,
+      "standalone_query": "Who is the prime minister of Canada?",
+      "reason": "The question asks for a current political fact unrelated to research papers or academic study.",
+      "elapsed_seconds": 2.869
+    },
+    {
+      "id": 26,
+      "message": "what hardware did they use for training?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "What hardware was used for training the model?",
+      "reason": "User asks for factual details about the training setup, which belongs to the Training section of the paper.",
+      "elapsed_seconds": 2.866
+    },
+    {
+      "id": 27,
+      "message": "translate your answer to Spanish",
+      "expected_intent": "rephrase_previous",
+      "predicted_intent": "rephrase_previous",
+      "is_match": true,
+      "standalone_query": "Translate the explanation of scaled dot-product attention into Spanish.",
+      "reason": "User asks to change language of the immediately preceding answer, matching the rephrase_previous intent.",
+      "elapsed_seconds": 7.07
+    },
+    {
+      "id": 28,
+      "message": "what is this paper about?",
+      "expected_intent": "summarize",
+      "predicted_intent": "summarize",
+      "is_match": true,
+      "standalone_query": "What is this paper about?",
+      "reason": "User asks for a summary of the entire paper.",
+      "elapsed_seconds": 6.955
+    },
+    {
+      "id": 29,
+      "message": "how does beam search work in machine translation generally?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "Explain how beam search works in machine translation.",
+      "reason": "User asks for a conceptual explanation of beam search in MT, which fits the paper_question intent.",
+      "elapsed_seconds": 2.869
+    },
+    {
+      "id": 30,
+      "message": "can you elaborate on that?",
+      "expected_intent": "needs_clarification",
+      "predicted_intent": "needs_clarification",
+      "is_match": true,
+      "standalone_query": "Could you clarify what you would like elaborated?",
+      "reason": "The pronoun 'that' has no referent in the visible chat history, making the request ambiguous.",
+      "elapsed_seconds": 2.723
+    },
+    {
+      "id": 31,
+      "message": "what is the weather like in Tokyo right now?",
+      "expected_intent": "off_topic",
+      "predicted_intent": "off_topic",
+      "is_match": true,
+      "standalone_query": "What is the current weather in Tokyo?",
+      "reason": "The user asks about real-time weather, which is unrelated to research papers or academic content.",
+      "elapsed_seconds": 3.83
+    },
+    {
+      "id": 32,
+      "message": "hey how are you doing today?",
+      "expected_intent": "off_topic",
+      "predicted_intent": "off_topic",
+      "is_match": true,
+      "standalone_query": "How are you doing today?",
+      "reason": "The user is engaging in casual conversation unrelated to research papers.",
+      "elapsed_seconds": 7.887
+    },
+    {
+      "id": 33,
+      "message": "Can diffusion models be used for text-to-speech synthesis?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "Can diffusion models be used for text-to-speech synthesis?",
+      "reason": "The user asks a factual question about the applicability of diffusion models to TTS, which fits the paper_question intent.",
+      "elapsed_seconds": 2.969
+    },
+    {
+      "id": 34,
+      "message": "How does FlashAttention optimize GPU memory bandwidth?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "How does FlashAttention optimize GPU memory bandwidth?",
+      "reason": "The user asks for a factual explanation of a technique described in the paper, which matches the paper_question intent.",
+      "elapsed_seconds": 3.175
+    },
+    {
+      "id": 35,
+      "message": "Who won the 2022 FIFA World Cup?",
+      "expected_intent": "off_topic",
+      "predicted_intent": "off_topic",
+      "is_match": true,
+      "standalone_query": "Who won the 2022 FIFA World Cup?",
+      "reason": "The question asks about a sports event, unrelated to research papers or academic content.",
+      "elapsed_seconds": 5.938
+    },
+    {
+      "id": 36,
+      "message": "tell me more about it",
+      "expected_intent": "needs_clarification",
+      "predicted_intent": "needs_clarification",
+      "is_match": true,
+      "standalone_query": "tell me more about it",
+      "reason": "The pronoun 'it' cannot be resolved from the visible chat history, making the request ambiguous.",
+      "elapsed_seconds": 3.379
+    },
+    {
+      "id": 37,
+      "message": "What is the loss function used in RoBERTa pretraining?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "What loss function is used in RoBERTa pretraining?",
+      "reason": "User asks a factual question about the RoBERTa pretraining loss, which fits the paper_question intent.",
+      "elapsed_seconds": 2.934
+    },
+    {
+      "id": 38,
+      "message": "Good morning! Can you help me?",
+      "expected_intent": "off_topic",
+      "predicted_intent": "needs_clarification",
+      "is_match": false,
+      "standalone_query": "User asks for assistance without specifying a request",
+      "reason": "The request is vague and does not indicate a specific intent such as summarizing, questioning, or outlining.",
+      "elapsed_seconds": 2.871
+    },
+    {
+      "id": 39,
+      "message": "what is gradient clipping and why is it used?",
+      "expected_intent": "paper_question",
+      "predicted_intent": "paper_question",
+      "is_match": true,
+      "standalone_query": "What is gradient clipping and why is it used?",
+      "reason": "The user asks for a factual explanation of a machine learning concept, which matches the paper_question intent.",
+      "elapsed_seconds": 4.027
+    },
+    {
+      "id": 40,
+      "message": "recommend a good Italian restaurant in New York",
+      "expected_intent": "off_topic",
+      "predicted_intent": "off_topic",
+      "is_match": true,
+      "standalone_query": "Recommend a good Italian restaurant in New York.",
+      "reason": "The request is for a restaurant recommendation, which is unrelated to research papers or academic study.",
+      "elapsed_seconds": 2.866
+    }
+  ]
+}
