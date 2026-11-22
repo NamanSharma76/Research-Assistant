@@ -42,3 +42,6 @@ htmlcov/
 .vscode/
 **/.vscode/
 .idea/
+
+# Evaluation intermediate checkpoints
+eval/results/*checkpoint*.json
